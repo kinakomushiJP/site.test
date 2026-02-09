@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" ref="favicon.ico">
+    <title>絵文字雑談サーバー公式サイト</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            background-color: #101010;
+            color: #ffffff;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        body.light-mode {
+            background-color: #ffffff;
+            color: #000000;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #252525;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        body.light-mode .container {
+            background: #f5f5f5;
+            color: #000000;
+        }
+
+        h1 {
+            font-size: 24px;
+            color: inherit;
+            text-align: center;
+        }
+
+        .step, .rule {
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 5px;
+            background: #1b1b1b;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        body.light-mode .step, body.light-mode .rule {
+            background: #e0e0e0;
+            color: #000;
+        }
+
+        .step { border-left: 5px solid #007bff; }
+        .rule { border-left: 5px solid #ff2e2e; }
+
+        .btn {
+      display: inline-block;
+      background: linear-gradient(90deg, #007bff, rgb(0, 115, 255));
+      color: rgb(255, 255, 255);
+      padding: 1rem 2.4rem;
+      border-radius: 27px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1.15rem;
+      box-shadow: 0 10px 30px -10px #6663ff;
+      transition: all 0.3s;
+      border: none;
+      cursor: pointer;
+    }
+        .disbtn {
+      display: inline-block;
+      background: linear-gradient(90deg, #25e100, rgb(0, 200, 7));
+      color: rgb(255, 255, 255);
+      padding: 1rem 2.4rem;
+      border-radius: 27px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1.15rem;
+      box-shadow: 0 10px 30px -10px #008e18;
+      transition: all 0.3s;
+      border: none;
+      cursor: pointer;
+    }
+
+    .nobtn {
+      display: inline-block;
+      background: linear-gradient(90deg, #434343, rgb(95, 95, 95));
+      color: rgb(255, 255, 255);
+      padding: 1rem 2.4rem;
+      border-radius: 27px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1.15rem;
+      box-shadow: 0 10px 30px -10px #2e2e2e;
+      transition: all 0.3s;
+      border: none;
+      cursor: pointer;
+    }
+    .btn:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 40px -10px #1e40af80;
+      background: linear-gradient(90deg, #50a4ff, #53a0ff);
+    }
+           .nobtn:hover {
+      box-shadow: 0 20px 40px -10px #1a1a1a80;
+      background: linear-gradient(90deg, #393939, #282828);
+    }
+        .disbtn:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 40px -10px #1eaf3180;
+      background: linear-gradient(90deg, #40ff39, #5cff43);
+    }
+            .menu-toggle:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 40px -10px #1e40af80;
+      background: linear-gradient(90deg, #50a4ff, #53a0ff);
+    }
+
+        @media (max-width: 768px) {
+            .container { padding: 15px; }
+            h1 { font-size: 20px; }
+            .btn { font-size: 16px; }
+        }
+
+        /* -------------------
+           右上メニュー用スタイル
+        ------------------- */
+        .menu-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .menu-toggle {
+      background: linear-gradient(90deg, #007bff, rgb(0, 115, 255));
+      color: rgb(255, 255, 255);
+      padding: 1rem 2.4rem;
+      border-radius: 27px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1.15rem;
+      box-shadow: 0 10px 30px -10px #6663ff;
+      transition: all 0.3s;
+      border: none;
+      cursor: pointer;
+        }
+
+        .menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background-color: #f9f9f9;
+            border: 1px solid #ccc;
+            border-radius: 20px;
+            padding: 10px;
+            width: 120px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            max-height: 0;
+            overflow: hidden;
+            opacity: 0;
+            transition: max-height 0.3s ease, opacity 0.3s ease;
+        }
+
+        body.light-mode .menu {
+            background-color: #e0e0e0;
+            border-color: #aaa;
+        }
+
+        .menu.open {
+            max-height: 200px;
+            opacity: 1;
+        }
+
+        .menu button {
+            padding: 8px 12px;
+            margin: 5px 0;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .menu button.light {
+            background-color: #f0f0f0;
+            color: #000;
+        }
+
+        .menu button.dark {
+            background-color: #333;
+            color: #fff;
+        }
+
+        body.light-mode .menu button.dark {
+            background-color: #555;
+            color: #fff;
+        }
+
+        body.light-mode .menu button.light {
+            background-color: #fff;
+            color: #000;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 右上メニュー -->
+    <div class="menu-container">
+        <button class="menu-toggle"><strong>メニュー</strong></button>
+        <div class="menu">
+            <button class="light"><strong>ライトモード</strong></button>
+            <button class="dark"><strong>ダークモード</strong></button>
+        </div>
+    </div>
+
+        <button class="nobtn">ホーム</button>
+    <button class="btn" onclick="window.location.href='.html/.admin/index.html'">運営一覧</button>
+    <button class="btn" onclick="window.location.href='.html/.version/index.html'">サイト更新情報</button>
+<p> </p>
+    <div class="container">
+        <h1>"絵文字雑談サーバー"へ参加しよう！</h1>
+        <div class="step">
+    <h2>サーバーについての説明</h2>
+    <p><strong>沢山の絵文字を使って雑談！ゲームしながら通話をしたり、アイテムのトレードをしたりサーバー内の通貨を使って特別なロールなどの商品を買ったりして楽しもう！</strong></p>
+    <img id="server-img" src="https://github.com/uuu-soda23/discordserver_site/blob/main/%E7%84%A1%E9%A1%8C18_20260201113423.png?raw=true" alt="サーバー画像">
+</div>
+        <div class="rule">
+            <h2>サーバーを利用する前に</h2>
+            <p>必ず以下のルールを読んでからご参加ください。</p>
+            <h2>メッセージの規制</h2>
+            <p>暴言や卑猥な発言、他の方が不機嫌になったり気分が悪くなってしまう事などはお控えください。</p>
+            <h2>サイトへの誘導</h2>
+            <p>情報を抜く様なものや、他者の端末へ危害を加える行為は禁止とします。他のDiscordサーバーへの宣伝などは#宣伝系でお願い致します。</p>
+            <h2>荒らし行為</h2>
+            <p>アプリコマンドを使用したり連投をして他の方の迷惑になるような行為はすべて禁止です。</p>
+            <h2>参加して直ぐに脱退する行為</h2>
+            <p>参加してすぐにサーバーを脱退する様な行為はお辞めください。何度も繰り返すと永久にBANになる可能性があります。</p>
+            <p>ここまで読んで理解できた方は以下のボタンを押して参加してください。</p>
+            <button class="disbtn" onclick="window.location.href='https://discord.gg/NTzybmQzB3'">Discordサーバーに参加</button>
+        <a href="./kousin/index.html" class="no-url"></a>
+        </div>
+    </div>
+<script src="index.js"></script>
+
+</body>
+</html>
