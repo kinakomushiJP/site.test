@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" ref="image/favicon.ico">
+    <title>サーバー運営者</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            background-color: #101010;
+            color: #ffffff;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        body.light-mode {
+            background-color: #ffffff;
+            color: #000000;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #252525;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        body.light-mode .container {
+            background: #f5f5f5;
+            color: #000000;
+        }
+
+        h1 {
+            font-size: 24px;
+            color: inherit;
+            text-align: center;
+        }
+
+        .kina, .yasa, .rize {
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 5px;
+            background: #1b1b1b;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        body.light-mode .kina,
+        body.light-mode .yasa,
+        body.light-mode .rize {
+            background: #e0e0e0;
+            color: #000;
+        }
+
+        .kina { border-left: 5px solid #0dd1c4; }
+        .yasa { border-left: 5px solid #22cb30; }
+        .rize { border-left: 5px solid #7162c6; }
+
+
+        .btn {
+      display: inline-block;
+      background: linear-gradient(90deg, #007bff, rgb(0, 115, 255));
+      color: rgb(255, 255, 255);
+      padding: 1rem 2.4rem;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1.15rem;
+      box-shadow: 0 10px 30px -10px #6663ff;
+      transition: all 0.3s;
+      border: none;
+      cursor: pointer;
+    }
+
+        .disbtn {
+      display: inline-block;
+      background: linear-gradient(90deg, #25e100, rgb(0, 200, 7));
+      color: rgb(255, 255, 255);
+      padding: 1rem 2.4rem;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1.15rem;
+      box-shadow: 0 10px 30px -10px #008e18;
+      transition: all 0.3s;
+      border: none;
+      cursor: pointer;
+    }
+
+    .nobtn {
+      display: inline-block;
+      background: linear-gradient(90deg, #434343, rgb(95, 95, 95));
+      color: rgb(255, 255, 255);
+      padding: 1rem 2.4rem;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1.15rem;
+      box-shadow: 0 10px 30px -10px #2e2e2e;
+      transition: all 0.3s;
+      border: none;
+      cursor: pointer;
+    }
+    
+    .btn:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 40px -10px #1e40af80;
+      background: linear-gradient(90deg, #50a4ff, #53a0ff);
+    }
+           .nobtn:hover {
+      box-shadow: 0 20px 40px -10px #1a1a1a80;
+      background: linear-gradient(90deg, #393939, #282828);
+    }
+        .disbtn:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 40px -10px #1eaf3180;
+      background: linear-gradient(90deg, #40ff39, #5cff43);
+    }
+                .menu-toggle:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 40px -10px #1e40af80;
+      background: linear-gradient(90deg, #50a4ff, #53a0ff);
+    }
+
+        @media (max-width: 768px) {
+            .container { padding: 15px; }
+            h1 { font-size: 20px; }
+            .btn { font-size: 16px; }
+        }
+
+        /* -------------------
+           右上メニュー用スタイル
+        ------------------- */
+        .menu-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .menu-toggle {
+     background: linear-gradient(90deg, #007bff, rgb(0, 115, 255));
+      color: rgb(255, 255, 255);
+      padding: 1rem 2.4rem;
+      border-radius: 27px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1.15rem;
+      box-shadow: 0 10px 30px -10px #6663ff;
+      transition: all 0.3s;
+      border: none;
+      cursor: pointer;
+        }
+
+        .menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background-color: #f9f9f9;
+            border: 1px solid #ccc;
+            border-radius: 20px;
+            padding: 10px;
+            width: 120px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            max-height: 0;
+            overflow: hidden;
+            opacity: 0;
+            transition: max-height 0.3s ease, opacity 0.3s ease;
+        }
+
+        body.light-mode .menu {
+            background-color: #e0e0e0;
+            border-color: #aaa;
+        }
+
+        .menu.open {
+            max-height: 200px;
+            opacity: 1;
+        }
+
+        .menu button {
+            padding: 8px 12px;
+            margin: 5px 0;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .menu button.light {
+            background-color: #f0f0f0;
+            color: #000;
+        }
+
+        .menu button.dark {
+            background-color: #333;
+            color: #fff;
+        }
+
+        body.light-mode .menu button.dark {
+            background-color: #555;
+            color: #fff;
+        }
+
+        body.light-mode .menu button.light {
+            background-color: #fff;
+            color: #000;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 右上メニュー -->
+    <div class="menu-container">
+        <button class="menu-toggle">メニュー</button>
+        <div class="menu">
+            <button class="light">ライトモード</button>
+            <button class="dark">ダークモード</button>
+        </div>
+    </div>
+        <button class="btn" onclick="window.location.href='https://kinakomushiJP.github.io/discordserver_site/'">ホーム</button>
+        <button class="nobtn">運営一覧</button>
+        <button class="btn" onclick="window.location.href='https://kinakomushiJP.github.io/discordserver_sitekousin/'">サイト更新情報</button>
+    <div class="container">
+        <h1>サーバー関係者</h1>
+        <div class="kina">
+            <h2>きなこむし</h2>
+            <p>役割: Owner</p>
+            <img src="image/kinakomushi.png">
+        </div>
+        <div class="yasa">
+            <h2>野菜の旨味</h2>
+            <p>役割: Admin</p>
+            <img src="image/yasainoumami.png">
+        </div>
+        <div class="rize">
+            <h2>リゼル星</h2>
+            <p>役割: Sub Admin</p>
+            <img src="image/rizeruhosi.png">
+        </div>
+    </div>
+
+    <!-- 外部JS読み込み -->
+    <script src="index.js"></script>
+
+</body>
+</html>
