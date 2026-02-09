@@ -22,26 +22,27 @@ function fadeImage(newSrc) {
 
 // ページ読み込み時に保存されたモードを反映
 document.addEventListener('DOMContentLoaded', () => {
-    const savedMode = localStorage.getItem('theme'); // 'light' または 'dark'
-    if(savedMode === 'light') {
+    const savedMode = localStorage.getItem('theme'); // 'light' or 'dark'
+
+    if (savedMode === 'light') {
         document.body.classList.add('light-mode');
-        fadeImage('image/main_dark.png');
+        fadeImage('image/main_light.png');
     } else {
         document.body.classList.remove('light-mode');
-        fadeImage('image/main_light.png');
+        fadeImage('image/main_dark.png');
     }
 });
 
 // ライトモード
 lightButton.addEventListener('click', () => {
     document.body.classList.add('light-mode');
-    fadeImage('image/main_dark.png');
-    localStorage.setItem('theme', 'light'); // 保存
+    fadeImage('image/main_light.png');
+    localStorage.setItem('theme', 'light');
 });
 
 // ダークモード
 darkButton.addEventListener('click', () => {
     document.body.classList.remove('light-mode');
-    fadeImage('image/main_light.png');
-    localStorage.setItem('theme', 'dark'); // 保存
+    fadeImage('image/main_dark.png');
+    localStorage.setItem('theme', 'dark');
 });
