@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
 // ライトモード
 lightButton.addEventListener('click', () => {
     document.body.classList.add('light-mode');
-    fadeImage('image.main_dark.png');
+    fadeImage('image/main_dark.png');
     localStorage.setItem('theme', 'light'); // 保存
 });
 
