@@ -1,5 +1,3 @@
-// theme-switcher.js
-
 const menuToggle = document.querySelector('.menu-toggle');
 const menu = document.querySelector('.menu');
 const lightButton = document.querySelector('.menu .light');
@@ -11,19 +9,18 @@ menuToggle.addEventListener('click', () => {
     menu.classList.toggle('open');
 });
 
-// 画像をフェードで切り替える関数
+// フェード切り替え
 function fadeImage(newSrc) {
-    if (!serverImg) return; // 画像が無いページ対策
+    if (!serverImg) return;
 
     serverImg.style.opacity = 0;
-
     setTimeout(() => {
         serverImg.src = newSrc;
         serverImg.style.opacity = 1;
     }, 300);
 }
 
-// ページ読み込み時
+// 初期読み込み
 document.addEventListener('DOMContentLoaded', () => {
     const savedMode = localStorage.getItem('theme');
 
@@ -36,14 +33,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// ライトモード
+// ライト
 lightButton.addEventListener('click', () => {
     document.body.classList.add('light-mode');
     fadeImage('image/main_light.png');
     localStorage.setItem('theme', 'light');
 });
 
-// ダークモード
+// ダーク
 darkButton.addEventListener('click', () => {
     document.body.classList.remove('light-mode');
     fadeImage('image/main_dark.png');
