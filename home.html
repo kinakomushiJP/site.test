@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="icon" ref="/image/favicon.ico">
-    <title>サーバー運営者</title>
+    <link rel="icon" ref="image/favicon.ico">
+    <title>絵文字雑談サーバー公式サイト</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body {
@@ -43,7 +43,7 @@
             text-align: center;
         }
 
-        .kina, .yasa, .rize {
+        .step, .rule {
             margin: 20px 0;
             padding: 15px;
             border-radius: 5px;
@@ -51,24 +51,20 @@
             transition: background 0.3s ease, color 0.3s ease;
         }
 
-        body.light-mode .kina,
-        body.light-mode .yasa,
-        body.light-mode .rize {
+        body.light-mode .step, body.light-mode .rule {
             background: #e0e0e0;
             color: #000;
         }
 
-        .kina { border-left: 5px solid #0dd1c4; }
-        .yasa { border-left: 5px solid #22cb30; }
-        .rize { border-left: 5px solid #7162c6; }
-
+        .step { border-left: 5px solid #007bff; }
+        .rule { border-left: 5px solid #ff2e2e; }
 
         .btn {
       display: inline-block;
       background: linear-gradient(90deg, #007bff, rgb(0, 115, 255));
       color: rgb(255, 255, 255);
       padding: 1rem 2.4rem;
-      border-radius: 50px;
+      border-radius: 27px;
       text-decoration: none;
       font-weight: 600;
       font-size: 1.15rem;
@@ -77,13 +73,12 @@
       border: none;
       cursor: pointer;
     }
-
         .disbtn {
       display: inline-block;
       background: linear-gradient(90deg, #25e100, rgb(0, 200, 7));
       color: rgb(255, 255, 255);
       padding: 1rem 2.4rem;
-      border-radius: 50px;
+      border-radius: 27px;
       text-decoration: none;
       font-weight: 600;
       font-size: 1.15rem;
@@ -98,7 +93,7 @@
       background: linear-gradient(90deg, #434343, rgb(95, 95, 95));
       color: rgb(255, 255, 255);
       padding: 1rem 2.4rem;
-      border-radius: 50px;
+      border-radius: 27px;
       text-decoration: none;
       font-weight: 600;
       font-size: 1.15rem;
@@ -107,7 +102,6 @@
       border: none;
       cursor: pointer;
     }
-    
     .btn:hover {
       transform: translateY(-4px);
       box-shadow: 0 20px 40px -10px #1e40af80;
@@ -122,7 +116,7 @@
       box-shadow: 0 20px 40px -10px #1eaf3180;
       background: linear-gradient(90deg, #40ff39, #5cff43);
     }
-                .menu-toggle:hover {
+            .menu-toggle:hover {
       transform: translateY(-4px);
       box-shadow: 0 20px 40px -10px #1e40af80;
       background: linear-gradient(90deg, #50a4ff, #53a0ff);
@@ -145,7 +139,7 @@
         }
 
         .menu-toggle {
-     background: linear-gradient(90deg, #007bff, rgb(0, 115, 255));
+      background: linear-gradient(90deg, #007bff, rgb(0, 115, 255));
       color: rgb(255, 255, 255);
       padding: 1rem 2.4rem;
       border-radius: 27px;
@@ -220,36 +214,41 @@
 
     <!-- 右上メニュー -->
     <div class="menu-container">
-        <button class="menu-toggle">メニュー</button>
+        <button class="menu-toggle"><strong>メニュー</strong></button>
         <div class="menu">
-            <button class="light">ライトモード</button>
-            <button class="dark">ダークモード</button>
-        </div>
-    </div>
-        <button class="btn" onclick="window.location.href='home.html'">ホーム</button>
-        <button class="nobtn">運営一覧</button>
-        <button class="btn" onclick="window.location.href='version.html'">サイト更新情報</button>
-    <div class="container">
-        <h1>サーバー関係者</h1>
-        <div class="kina">
-            <h2>きなこむし</h2>
-            <p>役割: Owner</p>
-            <img src="image/kinakomushi.png">
-        </div>
-        <div class="yasa">
-            <h2>野菜の旨味</h2>
-            <p>役割: Admin</p>
-            <img src="image/yasainoumami.png">
-        </div>
-        <div class="rize">
-            <h2>リゼル星</h2>
-            <p>役割: Sub Admin</p>
-            <img src="image/rizeruhosi.png">
+            <button class="light"><strong>ライトモード</strong></button>
+            <button class="dark"><strong>ダークモード</strong></button>
         </div>
     </div>
 
-    <!-- 外部JS読み込み -->
-    <script src="index.js"></script>
+        <button class="nobtn">ホーム</button>
+    <button class="btn" onclick="window.location.href='admin.html'">運営一覧</button>
+    <button class="btn" onclick="window.location.href='version.html'">サイト更新情報</button>
+<p> </p>
+    <div class="container">
+        <h1>"絵文字雑談サーバー"へ参加しよう！</h1>
+        <div class="step">
+    <h2>サーバーについての説明</h2>
+    <p><strong>沢山の絵文字を使って雑談！ゲームしながら通話をしたり、アイテムのトレードをしたりサーバー内の通貨を使って特別なロールなどの商品を買ったりして楽しもう！</strong></p>
+    <img id="server-img" src="image/main_dark" alt="サーバー画像">
+</div>
+        <div class="rule">
+            <h2>サーバーを利用する前に</h2>
+            <p>必ず以下のルールを読んでからご参加ください。</p>
+            <h2>メッセージの規制</h2>
+            <p>暴言や卑猥な発言、他の方が不機嫌になったり気分が悪くなってしまう事などはお控えください。</p>
+            <h2>サイトへの誘導</h2>
+            <p>情報を抜く様なものや、他者の端末へ危害を加える行為は禁止とします。他のDiscordサーバーへの宣伝などは#宣伝系でお願い致します。</p>
+            <h2>荒らし行為</h2>
+            <p>アプリコマンドを使用したり連投をして他の方の迷惑になるような行為はすべて禁止です。</p>
+            <h2>参加して直ぐに脱退する行為</h2>
+            <p>参加してすぐにサーバーを脱退する様な行為はお辞めください。何度も繰り返すと永久にBANになる可能性があります。</p>
+            <p>ここまで読んで理解できた方は以下のボタンを押して参加してください。</p>
+            <button class="disbtn" onclick="window.location.href='https://discord.gg/NTzybmQzB3'">Discordサーバーに参加</button>
+        <a href="kousin/index.html" class="no-url"></a>
+        </div>
+    </div>
+<script src="index.js"></script>
 
 </body>
 </html>
