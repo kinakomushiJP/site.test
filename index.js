@@ -107,3 +107,261 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
 });
+
+document.addEventListener("DOMContentLoaded", () => {
+  const sections = Array.from(document.querySelectorAll(".scroll-section"));
+  let currentActive = null;
+  let observer = null;
+
+  function activateSection(section) {
+    if (currentActive === section) return;
+
+    if (currentActive) {
+      currentActive.classList.remove("active");
+    }
+
+    section.classList.add("active");
+    currentActive = section;
+  }
+
+  function createObserver() {
+    if (observer) observer.disconnect();
+
+    observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter(e => e.isIntersecting)
+          .map(e => {
+            const rect = e.target.getBoundingClientRect();
+            const centerY = rect.top + rect.height / 2;
+            const viewportCenter = window.innerHeight / 2;
+            return {
+              el: e.target,
+              distance: Math.abs(centerY - viewportCenter)
+            };
+          });
+
+        if (visible.length === 0) return;
+
+        // 画面中央に一番近い section を選ぶ
+        visible.sort((a, b) => a.distance - b.distance);
+        activateSection(visible[0].el);
+      },
+      {
+        root: null,
+        rootMargin: "-30% 0px -30% 0px",
+        threshold: 0
+      }
+    );
+
+    sections.forEach(sec => observer.observe(sec));
+  }
+
+  createObserver();
+
+  /* 初期表示保証 */
+  if (sections.length > 0) {
+    activateSection(sections[0]);
+  }
+
+  /* resize・回転対応（超重要） */
+  window.addEventListener("resize", () => {
+    createObserver();
+  });
+});
+
+/* =========================
+   スピード依存モーションブラー
+========================= */
+
+const cursor = document.createElement("div");
+cursor.id = "custom-cursor";
+document.body.appendChild(cursor);
+
+/* 通常カーソル無効化 */
+document.body.style.cursor = "none";
+document.querySelectorAll("*").forEach(el => {
+  el.style.cursor = "none";
+});
+
+let mouseX = innerWidth / 2;
+let mouseY = innerHeight / 2;
+let currentX = mouseX;
+let currentY = mouseY;
+
+let lastX = mouseX;
+let lastY = mouseY;
+
+/* マウス移動検知 */
+window.addEventListener("mousemove", e => {
+  mouseX = e.clientX;
+  mouseY = e.clientY;
+
+  const dx = mouseX - lastX;
+  const dy = mouseY - lastY;
+  const speed = Math.sqrt(dx * dx + dy * dy);
+
+  /* ---- ここが重要 ---- */
+  const blur = Math.min(speed * 0.1, 3);
+  cursor.style.filter = `blur(${blur}px)`;
+
+  lastX = mouseX;
+  lastY = mouseY;
+});
+
+/* 追従（ヌルっと） */
+function animate() {
+  currentX += (mouseX - currentX) * 0.12;
+  currentY += (mouseY - currentY) * 0.12;
+
+  cursor.style.left = `${currentX}px`;
+  cursor.style.top  = `${currentY}px`;
+
+  requestAnimationFrame(animate);
+}
+animate();
+
+/* ホバー演出 */
+document.querySelectorAll("a, button").forEach(el => {
+  el.addEventListener("mouseenter", () => {
+    cursor.classList.add("hover");
+  });
+  el.addEventListener("mouseleave", () => {
+    cursor.classList.remove("hover");
+  });
+});
+
+/* =========================
+   本来のマウス位置の青い点
+========================= */
+
+const cursorCore = document.createElement("div");
+cursorCore.id = "cursor-core";
+document.body.appendChild(cursorCore);
+
+/* マウス位置を即時反映（遅れなし） */
+window.addEventListener("mousemove", e => {
+  cursorCore.style.left = `${e.clientX}px`;
+  cursorCore.style.top  = `${e.clientY}px`;
+});
+
+const form = document.getElementById("contact-form");
+const submitBtn = document.getElementById("submit-btn");
+
+form.addEventListener("submit", async (e) => {
+  e.preventDefault(); // ← 二重送信防止の要
+
+  // 二重送信防止
+  if (submitBtn.disabled) return;
+  submitBtn.disabled = true;
+  submitBtn.textContent = "送信中…";
+
+  const nameInput = document.getElementById("name");
+  const emailInput = form.querySelector('input[name="email"]');
+  const messageInput = document.getElementById("message");
+
+  const name = nameInput.value.trim();
+  const email = emailInput.value.trim();
+  const originalMessage = messageInput.value;
+
+  // 送信用メッセージを生成
+  let sendMessage = originalMessage;
+  if (name !== "") {
+    sendMessage = originalMessage;
+  }
+
+  try {
+    /* =========================
+       ① Formspree（メール）
+    ========================= */
+    await fetch(form.action, {
+      method: "POST",
+      headers: {
+        "Accept": "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        email: email,
+        message: sendMessage
+      })
+    });
+
+/* =========================
+   ② Discord Webhook（Embed）
+========================= */
+await fetch("https://discord.com/api/webhooks/1476267804956037172/vfJSU83Cc2OvsOVLqoWryPbk4iaOZ299vEgo1rdVXLYBpnG8Wcn0flvVrLtrJbcI8kE6", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify({
+    username: "お問い合わせフォーム",
+
+    // 👇 ここが重要（メンション）
+    content: "<@1338042027878645762> 新しいお問い合わせが届きました",
+
+    embeds: [
+      {
+        title: "📩 新しいお問い合わせ",
+        color: 0x4aa3ff,
+        fields: [
+          {
+            name: "👤 名前",
+            value: name || "未入力",
+            inline: true
+          },
+          {
+  name: "📧 メール",
+  value: email || "未入力",
+  inline: true
+          },
+          {
+            name: "📝 メッセージ",
+            value: originalMessage
+          }
+        ],
+        timestamp: new Date().toISOString()
+      }
+    ]
+  })
+});
+
+    /* =========================
+       成功時
+    ========================= */
+    showAlert("送信が完了しました！");
+    form.reset();
+
+  } catch (err) {
+    showAlert("送信に失敗しました。再度お試しください。", true);
+    submitBtn.disabled = false;
+    submitBtn.textContent = "送信";
+    return;
+  }
+
+  // ボタン復帰（再送信可能に）
+  submitBtn.disabled = false;
+  submitBtn.textContent = "送信";
+});
+
+function showAlert(message, isError = false) {
+  const alertBox = document.getElementById("custom-alert");
+  const alertText = alertBox.querySelector(".alert-text");
+  const alertIcon = alertBox.querySelector(".alert-icon");
+
+  alertText.textContent = message;
+
+  if (isError) {
+    alertBox.classList.add("error");
+    alertIcon.textContent = "✖";
+  } else {
+    alertBox.classList.remove("error");
+    alertIcon.textContent = "✔";
+  }
+
+  alertBox.classList.add("show");
+
+  setTimeout(() => {
+    alertBox.classList.remove("show");
+  }, 3000);
+}

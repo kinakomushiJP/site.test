@@ -389,9 +389,174 @@ body.light-mode .header button:hover {
     opacity: 1;
     transition: opacity 0.3s ease;
 }
+
+/* =========================
+   カスタムカーソル（本体）
+========================= */
+#custom-cursor {
+  position: fixed;
+  width: 28px;
+  height: 28px;
+  border: 3px solid rgba(30, 131, 255, 0.9);
+  border-radius: 50%;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+
+  /* ★ここが重要 */
+  transition:
+    transform 0.15s ease-out,
+    border-color 0.15s ease,
+    width 0.15s ease,
+    height 0.15s ease,
+    filter 0.15s ease;
+  filter: blur(0px);
+}
+
+/* ホバー時 */
+#custom-cursor.hover {
+  border-color: rgba(96, 162, 255, 0.9);
+  width: 36px;
+  height: 36px;
+}
+
+/* 動いている時のモーションブラー */
+#custom-cursor.moving {
+  filter: blur(6px);
+}
+
+/* セクション共通（待機状態） */
+.scroll-section {
+  opacity: 0.35;                 /* ← うっすら表示 */
+  transform: translateX(-120px) scale(0.96);
+  filter: blur(2px);             /* ← 少しぼかす */
+  transition:
+    opacity 0.5s ease,
+    transform 0.5s ease,
+    filter 0.5s ease;
+  will-change: opacity, transform, filter;
+}
+
+/* 現在表示中 */
+.scroll-section.active {
+  opacity: 1;
+  transform: translateX(0) scale(1);
+  filter: blur(0);
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-weight: bold;
+}
+
+input,
+textarea {
+  background: #1b1b1b;
+  color: white;
+  border: 1px solid #444;
+  border-radius: 8px;
+  padding: 10px;
+  font-size: 14px;
+}
+
+body.light-mode input,
+body.light-mode textarea {
+  background: #fff;
+  color: #000;
+  border-color: #ccc;
+}
+
+.custom-alert {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-20px);
+  background: #2ecc71;
+  color: white;
+  padding: 14px 20px;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: bold;
+  opacity: 0;
+  filter: blur(4px); /* ← 初期は少しぼかす */
+  pointer-events: none;
+  transition:
+    opacity 0.4s ease,
+    transform 0.4s ease,
+    filter 0.4s ease;
+  z-index: 2000;
+}
+
+/* 表示中 */
+.custom-alert.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+  filter: blur(0); /* ← くっきり */
+}
+
+/* エラー */
+.custom-alert.error {
+  background: #e74c3c;
+}
+
+.alert-icon {
+  font-size: 18px;
+}
+textarea {
+  resize: none;
+}
+
+/* 本来のマウス位置の青い点 */
+#cursor-core {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 4.5px;
+  height: 4.5px;
+  border-radius: 50%;
+  background: rgba(63, 143, 255, 0.9);
+  pointer-events: none;
+  z-index: 99999;
+
+  /* ここが重要 */
+  filter: blur(1.2px);
+  transform: translate(-50%, -50%);
+}
+
+/* テキスト用カラー変数（なければ追加） */
+:root {
+  --text-main: #eaeaea;
+  --text-sub: #b0b0b0;
+}
+
+body.light-mode {
+  --text-main: #111111;
+  --text-sub: #666666;
+}
+
+.inline-small {
+  font-size: 0.8em;     /* 親文字に対して少し小さく */
+  color: var(--text-sub);
+  vertical-align: baseline; /* 行ズレ防止 */
+}
     </style>
 </head>
 <body>
+<!-- カスタムアラート -->
+<div id="custom-alert" class="custom-alert">
+  <span class="alert-icon">✔</span>
+  <span class="alert-text">送信が完了しました</span>
+</div>
 
 <header class="header">
   <button data-scroll="home" data-icon="home">
@@ -421,6 +586,7 @@ body.light-mode .header button:hover {
 
 <p> </p>
 </div>
+<section class="scroll-section" id="home">
       <section id="home">
             <div class="container">
         <h1>"絵文字雑談サーバー"へ参加しよう！</h1>
@@ -449,7 +615,8 @@ body.light-mode .header button:hover {
         </div>
     </div>
   </section>
-  
+  </section>
+  <section class="scroll-section" id="admin">
       <section id="admin">
 <p> </p>
         <div class="container">
@@ -471,25 +638,72 @@ body.light-mode .header button:hover {
         </div>
     </div>
       </section>
-
-            <section id="otoiawase">
+</section>
 <p> </p>
-        <div class="container">
-        <h1>お問い合わせ</h1>
-        <div class="rize">
-            <h2>お問い合わせ方法</h2>
-            <h2>1,</h2>
-            <p>Discordで<strong>@kina_int3 </strong>にDM(ダイレクトメッセージ)を送信する。</p>
-            <h2>2,</h2>
-            <p>Discordサーバーの専用チャンネル(#お問い合わせ)へ送信する。</p>
-        </div>
-    </div>
+<section class="scroll-section" id="otoiawase">
+<section id="otoiawase">
+  <div class="container">
+    <h1>お問い合わせ</h1>
+<form
+  id="contact-form"
+  action="https://formspree.io/f/mdalyqnn"
+  method="POST"
+>
+  <!-- 名前（任意） -->
+  <label>
+    名前（ニックネーム）
+    <input
+      type="text"
+      id="name"
+      placeholder="例：さかなくんA"
+    >
+  </label>
 
+  <!-- メールアドレス -->
+  <label>
+    メールアドレス
+    <input
+      type="email"
+      name="email"
+      placeholder="メールアドレス（任意）　メールアドレスを入力するとオーナーのGmailへ直接届きます。">
+  </label>
+
+  <!-- メッセージ -->
+  <label>
+    メッセージ
+    <textarea
+      id="message"
+      name="message"
+      rows="6"
+      required
+      placeholder="お問い合わせ内容を入力してください"
+    ></textarea>
+  </label>
+
+<button type="submit" class="btn" id="submit-btn">
+    送信
+  </button>
+</form>
+<h1>サイトからの送信以外の方法</h1>
+            <div class="daiji">
+                <h2>Discord</h2>
+            <p>@kina_int のDMへ送信する。</p>
+        </div>
+            </div>
       </section>
+      </section>
+
+      <section class="scroll-section" id="version">
       <section id="version">
     <p> </p>
     <div class="container">
         <h1>サイト更新情報</h1>
+            <div class="daiji">
+            <h2>v1.6.0　26/2/26</h2>
+            <p>お問い合わせの欄から簡単に送信出来るようにしました。入力された内容はサーバーをより良くするために使われます。(オーナーのみ閲覧することができます。)</p>
+<p>項目を移動すると表示されたり非表示になったりするようになりました。</p>
+<p>マウスカーソルをこのサイトでのみ変わるようにしました。</p>
+        </div>
             <div class="hutu">
             <h2>v1.5.1　26/2/20</h2>
             <p>メニューのボタンにアイコンを追加しました。</p>
@@ -543,6 +757,8 @@ body.light-mode .header button:hover {
         </div>
     </div>
   </section>
+  </section>
+  <div id="custom-cursor"></div>
 <script src="index.js"></script>
 </body>
 </html>
