@@ -289,7 +289,7 @@ form.addEventListener("submit", async (e) => {
 /* =========================
    ② Discord Webhook（Embed）
 ========================= */
-await fetch("https://discord.com/api/webhooks/1476267804956037172/vfJSU83Cc2OvsOVLqoWryPbk4iaOZ299vEgo1rdVXLYBpnG8Wcn0flvVrLtrJbcI8kE6", {
+await fetch("https://discord.com/api/webhooks/1477218371958472724/WT_O6AVWs4jNa1fGfvVo2AZ8LLd7OK4DEespF54El7MQwEAJk6bXbRk7b3FKiyGBvNa7", {
   method: "POST",
   headers: {
     "Content-Type": "application/json"
