@@ -549,6 +549,45 @@ body.light-mode {
   color: var(--text-sub);
   vertical-align: baseline; /* 行ズレ防止 */
 }
+
+@media (hover: none) and (pointer: coarse) {
+  #cursor-dot,
+  #custom-cursor {
+    display: none !important;
+  }
+}
+
+#cursor-dot {
+  position: fixed;
+  width: 4px;
+  height: 4px;
+  background: #4aa3ff;
+  border-radius: 50%;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  filter: blur(0.5px);
+  z-index: 99999;
+}
+
+/* 波紋 */
+.cursor-ripple {
+  position: fixed;
+  width: 10px;
+  height: 10px;
+  border: 2px solid rgba(74, 163, 255, 0.8);
+  border-radius: 50%;
+  pointer-events: none;
+  transform: translate(-50%, -50%) scale(0);
+  animation: ripple 0.6s ease-out forwards;
+  z-index: 99998;
+}
+
+@keyframes ripple {
+  to {
+    transform: translate(-50%, -50%) scale(4);
+    opacity: 0;
+  }
+}
     </style>
 </head>
 <body>
@@ -632,7 +671,7 @@ body.light-mode {
             <img src="image/yasainoumami.png">
         </div>
         <div class="rize">
-            <h2>リゼル星</h2>
+            <h2>幻庭 恋灯</h2>
             <p>役割: Sub Admin</p>
             <img src="image/rizeruhosi.png">
         </div>
@@ -698,17 +737,25 @@ body.light-mode {
     <p> </p>
     <div class="container">
         <h1>サイト更新情報</h1>
+            <div class="hutu">
+            <h2>v1.6.1　26/3/2</h2>
+            <p>スマホで専用のカーソルを表示させないようにしました。</p>
+            <p>クリック・タップをするとエフェクトが出るようになりました。</p>
+        </div>
+
             <div class="daiji">
             <h2>v1.6.0　26/2/26</h2>
             <p>お問い合わせの欄から簡単に送信出来るようにしました。入力された内容はサーバーをより良くするために使われます。(オーナーのみ閲覧することができます。)</p>
 <p>項目を移動すると表示されたり非表示になったりするようになりました。</p>
-<p>マウスカーソルをこのサイトでのみ変わるようにしました。</p>
+<p>マウスカーソルがこのサイトでのみ変わるようにしました。</p>
         </div>
+
             <div class="hutu">
             <h2>v1.5.1　26/2/20</h2>
             <p>メニューのボタンにアイコンを追加しました。</p>
             <p>メニュをスマートフォン用に改良しました。</p>
         </div>
+
             <div class="daiji">
             <h2>v1.5.0　26/2/19</h2>
             <p>メニューを変更しました。</p>
@@ -717,12 +764,14 @@ body.light-mode {
             <h2>v1.4.1　26/2/16</h2>
             <p>メニューの修正とお問い合わせ方法をついかしました。</p>
         </div>
+
             <div class="daiji">
             <h2>v1.4.0　26/2/14</h2>
             <p>サイトを一つにしました。</p>
             <p>ボタンを変更して全てメニューの中に移動しました。</p>
             <p>ルールの文を少し変更しました。</p>
         </div>
+
             <div class="daiji">
             <h2>v1.3.0　26/2/9</h2>
             <p>サイトを一つのレポジトリにしました。</p>
@@ -730,31 +779,38 @@ body.light-mode {
             <p>画像も背景に合わせてフェードで切り替わるようになりました。</p>
             <p>ボタンとテキストの距離の変更やその他の細かな変更をしました。</p>
         </div>
+
          <div class="hutu">
             <h2>v1.2.1　26/2/7</h2>
             <p>ボタンの位置と見た目を変更しました。</p>
         </div>
+
         <div class="daiji">
             <h2>v1.2.0　26/2/1</h2>
             <p>メニューでライトモードとダークモードを切り替えられるようにしました。</p>
         </div>
+        
         <div class="tyoto">
             <h2>v1.1.2　26/2/1</h2>
             <p>ボタンの順を変更しました。</p>
         </div>
+
         <div class="hutu">
             <h2>v1.1.1　26/2/1</h2>
             <p>更新情報を追加しました。</p>
             <p>ダークモードに変更しました。</p>
         </div>
+
         <div class="hutu">
             <h2>v1.1.0　26/2/1</h2>
             <p>運営一覧が追加されました。</p>
         </div>
+
         <div class="daiji">
             <h2>v1.0.0　26/2/1</h2>
             <p>サイトが公開されました。</p>
         </div>
+
     </div>
   </section>
   </section>

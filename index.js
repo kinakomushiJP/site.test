@@ -174,15 +174,21 @@ document.addEventListener("DOMContentLoaded", () => {
    スピード依存モーションブラー
 ========================= */
 
-const cursor = document.createElement("div");
-cursor.id = "custom-cursor";
-document.body.appendChild(cursor);
+let cursor = null;
 
-/* 通常カーソル無効化 */
-document.body.style.cursor = "none";
-document.querySelectorAll("*").forEach(el => {
-  el.style.cursor = "none";
-});
+if (!isTouchDevice()) {
+
+  cursor = document.createElement("div");
+  cursor.id = "custom-cursor";
+  document.body.appendChild(cursor);
+
+  /* 通常カーソル無効化 */
+  document.body.style.cursor = "none";
+  document.querySelectorAll("*").forEach(el => {
+    el.style.cursor = "none";
+  });
+
+}
 
 let mouseX = innerWidth / 2;
 let mouseY = innerHeight / 2;
@@ -192,34 +198,35 @@ let currentY = mouseY;
 let lastX = mouseX;
 let lastY = mouseY;
 
-/* マウス移動検知 */
-window.addEventListener("mousemove", e => {
-  mouseX = e.clientX;
-  mouseY = e.clientY;
+if (!isTouchDevice()) {
 
-  const dx = mouseX - lastX;
-  const dy = mouseY - lastY;
-  const speed = Math.sqrt(dx * dx + dy * dy);
+  window.addEventListener("mousemove", e => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
 
-  /* ---- ここが重要 ---- */
-  const blur = Math.min(speed * 0.1, 3);
-  cursor.style.filter = `blur(${blur}px)`;
+    const dx = mouseX - lastX;
+    const dy = mouseY - lastY;
+    const speed = Math.sqrt(dx * dx + dy * dy);
 
-  lastX = mouseX;
-  lastY = mouseY;
-});
+    const blur = Math.min(speed * 0.1, 3);
+    cursor.style.filter = `blur(${blur}px)`;
 
-/* 追従（ヌルっと） */
-function animate() {
-  currentX += (mouseX - currentX) * 0.12;
-  currentY += (mouseY - currentY) * 0.12;
+    lastX = mouseX;
+    lastY = mouseY;
+  });
 
-  cursor.style.left = `${currentX}px`;
-  cursor.style.top  = `${currentY}px`;
+  function animate() {
+    currentX += (mouseX - currentX) * 0.12;
+    currentY += (mouseY - currentY) * 0.12;
 
-  requestAnimationFrame(animate);
+    cursor.style.left = `${currentX}px`;
+    cursor.style.top  = `${currentY}px`;
+
+    requestAnimationFrame(animate);
+  }
+  animate();
+
 }
-animate();
 
 /* ホバー演出 */
 document.querySelectorAll("a, button").forEach(el => {
@@ -235,9 +242,13 @@ document.querySelectorAll("a, button").forEach(el => {
    本来のマウス位置の青い点
 ========================= */
 
-const cursorCore = document.createElement("div");
-cursorCore.id = "cursor-core";
-document.body.appendChild(cursorCore);
+let dot = null;
+
+if (!isTouchDevice()) {
+  dot = document.createElement("div");
+  dot.id = "cursor-dot";
+  document.body.appendChild(dot);
+}
 
 /* マウス位置を即時反映（遅れなし） */
 window.addEventListener("mousemove", e => {
@@ -364,4 +375,47 @@ function showAlert(message, isError = false) {
   setTimeout(() => {
     alertBox.classList.remove("show");
   }, 3000);
+}
+
+function isTouchDevice() {
+  return (
+    "ontouchstart" in window ||
+    navigator.maxTouchPoints > 0
+  );
+}
+
+if (!isTouchDevice()) {
+  document.querySelectorAll("a, button").forEach(el => {
+    el.addEventListener("mouseenter", () => {
+      cursor.classList.add("hover");
+    });
+    el.addEventListener("mouseleave", () => {
+      cursor.classList.remove("hover");
+    });
+  });
+}
+
+if (!isTouchDevice()) {
+  window.addEventListener("mousemove", (e) => {
+    if (!dot) return;
+
+    dot.style.left = `${e.clientX}px`;
+    dot.style.top  = `${e.clientY}px`;
+  });
+}
+
+if (!isTouchDevice()) {
+  window.addEventListener("mousedown", (e) => {
+    const ripple = document.createElement("div");
+    ripple.className = "cursor-ripple";
+
+    ripple.style.left = `${e.clientX}px`;
+    ripple.style.top  = `${e.clientY}px`;
+
+    document.body.appendChild(ripple);
+
+    ripple.addEventListener("animationend", () => {
+      ripple.remove();
+    });
+  });
 }
