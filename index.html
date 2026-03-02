@@ -394,23 +394,18 @@ body.light-mode .header button:hover {
    カスタムカーソル（本体）
 ========================= */
 #custom-cursor {
-  position: fixed;
   width: 28px;
   height: 28px;
-  border: 3px solid rgba(30, 131, 255, 0.9);
+  border: 2px solid rgba(74,163,255,0.8);
   border-radius: 50%;
+  position: fixed;
   pointer-events: none;
   transform: translate(-50%, -50%);
-  z-index: 9999;
-
-  /* ★ここが重要 */
+  
+  /* ⚠ filter は絶対に触らない */
   transition:
-    transform 0.15s ease-out,
-    border-color 0.15s ease,
-    width 0.15s ease,
-    height 0.15s ease,
-    filter 0.15s ease;
-  filter: blur(0px);
+    transform 0.2s ease,
+    opacity 0.2s ease;
 }
 
 /* ホバー時 */
@@ -418,11 +413,6 @@ body.light-mode .header button:hover {
   border-color: rgba(96, 162, 255, 0.9);
   width: 36px;
   height: 36px;
-}
-
-/* 動いている時のモーションブラー */
-#custom-cursor.moving {
-  filter: blur(6px);
 }
 
 /* セクション共通（待機状態） */
@@ -514,23 +504,6 @@ body.light-mode textarea {
 }
 textarea {
   resize: none;
-}
-
-/* 本来のマウス位置の青い点 */
-#cursor-core {
-  position: fixed;
-  left: 0;
-  top: 0;
-  width: 4.5px;
-  height: 4.5px;
-  border-radius: 50%;
-  background: rgba(63, 143, 255, 0.9);
-  pointer-events: none;
-  z-index: 99999;
-
-  /* ここが重要 */
-  filter: blur(1.2px);
-  transform: translate(-50%, -50%);
 }
 
 /* テキスト用カラー変数（なければ追加） */
@@ -631,7 +604,7 @@ body.light-mode {
         <h1>"絵文字雑談サーバー"へ参加しよう！</h1>
         <div class="step">
     <h2>サーバーについての説明</h2>
-    <p>現在 <span id="viewerCount">-</span> 人が閲覧中</p>
+    <span id="viewerCount">-</span>
     <p><strong>沢山の絵文字を使って雑談！ゲームしながら通話をしたり、アイテムのトレードをしたりサーバー内の通貨を使って特別なロールなどの商品を買ったりして楽しもう！</strong></p>
 <img
   id="server-img"
@@ -816,39 +789,7 @@ body.light-mode {
   </section>
   </section>
   <div id="custom-cursor"></div>
+<script type="module" src="viewer.js"></script>
 <script src="index.js"></script>
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getDatabase, ref, onValue, runTransaction, onDisconnect } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyAlaNJCHVPr_DGZctrhs5srYVT6NoKBq_k",
-  authDomain: "discord-25cfe.firebaseapp.com",
-  databaseURL: "https://discord-25cfe-default-rtdb.firebaseio.com",
-  projectId: "discord-25cfe",
-  storageBucket: "discord-25cfe.firebasestorage.app",
-  messagingSenderId: "700961783585",
-  appId: "1:700961783585:web:4fc421ab985a8f8f09c860"
-};
-
-// Firebase 初期化
-const app = initializeApp(firebaseConfig);
-const db = getDatabase(app);
-const countRef = ref(db, "viewerCount");
-
-// 開いたら +1
-runTransaction(countRef, (current) => (current || 0) + 1);
-
-// 閉じたら -1
-onDisconnect(countRef).runTransaction(
-  (current) => Math.max((current || 1) - 1, 0)
-);
-
-// 表示更新
-onValue(countRef, (snapshot) => {
-  document.getElementById("viewerCount").textContent = snapshot.val() ?? 0;
-});
-</script>
-
 </body>
 </html>

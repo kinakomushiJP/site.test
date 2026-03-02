@@ -200,31 +200,55 @@ let lastY = mouseY;
 
 if (!isTouchDevice()) {
 
-  window.addEventListener("mousemove", e => {
-    mouseX = e.clientX;
-    mouseY = e.clientY;
+if (!isTouchDevice()) {
+let mouseX = innerWidth / 2;
+let mouseY = innerHeight / 2;
+let currentX = mouseX;
+let currentY = mouseY;
+let lastX = mouseX;
+let lastY = mouseY;
 
-    const dx = mouseX - lastX;
-    const dy = mouseY - lastY;
-    const speed = Math.sqrt(dx * dx + dy * dy);
+window.addEventListener("mousemove", (e) => {
+  mouseX = e.clientX;
+  mouseY = e.clientY;
 
-    const blur = Math.min(speed * 0.1, 3);
-    cursor.style.filter = `blur(${blur}px)`;
+  const dx = mouseX - lastX;
+  const dy = mouseY - lastY;
+  const speed = Math.sqrt(dx * dx + dy * dy);
 
-    lastX = mouseX;
-    lastY = mouseY;
-  });
+  /* ブラー：かなり弱め＋低上限 */
+  const blur = Math.min(speed * 0.1, 3);
 
-  function animate() {
-    currentX += (mouseX - currentX) * 0.12;
-    currentY += (mouseY - currentY) * 0.12;
+  cursor.style.filter = `blur(${blur}px)`;
 
-    cursor.style.left = `${currentX}px`;
-    cursor.style.top  = `${currentY}px`;
+  lastX = mouseX;
+  lastY = mouseY;
+});
 
-    requestAnimationFrame(animate);
-  }
-  animate();
+function animate() {
+  currentX += (mouseX - currentX) * 0.12;
+  currentY += (mouseY - currentY) * 0.12;
+
+  cursor.style.left = `${currentX}px`;
+  cursor.style.top  = `${currentY}px`;
+
+  requestAnimationFrame(animate);
+}
+animate();
+}
+
+function animate() {
+  if (!cursor) return;
+
+  currentX += (mouseX - currentX) * 0.12;
+  currentY += (mouseY - currentY) * 0.12;
+
+  cursor.style.left = `${currentX}px`;
+  cursor.style.top  = `${currentY}px`;
+
+  requestAnimationFrame(animate);
+}
+animate();
 
 }
 
@@ -250,10 +274,27 @@ if (!isTouchDevice()) {
   document.body.appendChild(dot);
 }
 
-/* マウス位置を即時反映（遅れなし） */
 window.addEventListener("mousemove", e => {
-  cursorCore.style.left = `${e.clientX}px`;
-  cursorCore.style.top  = `${e.clientY}px`;
+  mouseX = e.clientX;
+  mouseY = e.clientY;
+
+  /* 小さい点は遅れず即座に追従 */
+  if (dot) {
+    dot.style.left = `${mouseX}px`;
+    dot.style.top  = `${mouseY}px`;
+  }
+
+  const dx = mouseX - lastX;
+  const dy = mouseY - lastY;
+  const speed = Math.sqrt(dx * dx + dy * dy);
+
+  const blur = Math.min(speed * 0.08, 2); // ← 弱め
+  if (cursor) {
+    cursor.style.filter = `blur(${blur}px)`;
+  }
+
+  lastX = mouseX;
+  lastY = mouseY;
 });
 
 const form = document.getElementById("contact-form");
