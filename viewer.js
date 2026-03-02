@@ -3,8 +3,7 @@ import {
   getDatabase,
   ref,
   onValue,
-  get,
-  runTransaction,
+  push,
   onDisconnect
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
@@ -20,25 +19,25 @@ const firebaseConfig = {
   appId: "1:700961783585:web:4fc421ab985a8f8f09c860"
 };
 
+// Firebase 初期化
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
-const countRef = ref(db, "viewerCount");
 
-// 🔹 初回表示（必ず表示される）
-get(countRef).then((snapshot) => {
+// 接続管理ノード
+const connectionsRef = ref(db, "connections");
+
+// 自分の接続を追加
+const myConnectionRef = push(connectionsRef);
+
+// 切断時に自分を削除
+onDisconnect(myConnectionRef).remove();
+
+// 接続数を監視して表示
+onValue(connectionsRef, (snapshot) => {
+  const count = snapshot.exists()
+    ? Object.keys(snapshot.val()).length
+    : 0;
+
   const el = document.getElementById("viewerCount");
-  if (el) el.textContent = snapshot.val() ?? 0;
+  if (el) el.textContent = count;
 });
-
-// 🔹 リアルタイム更新
-onValue(countRef, (snapshot) => {
-  const el = document.getElementById("viewerCount");
-  if (el) el.textContent = snapshot.val() ?? 0;
-});
-
-// 🔹 開いたら +1
-runTransaction(countRef, (current) => (current || 0) + 1);
-
-// 🔹 切断時は「フラグ」を立てる（安全）
-const disconnectRef = ref(db, `disconnect/${Date.now()}_${Math.random()}`);
-onDisconnect(disconnectRef).set(true);
