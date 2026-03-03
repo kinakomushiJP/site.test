@@ -830,6 +830,11 @@ connectionsRef.on("value", (snapshot) => {
 
   document.getElementById("viewerCount").textContent = count;
 });
+
+connectionsRef.push().set({
+  test: "hello",
+  time: Date.now()
+});
 </script>
 <script src="index.js"></script>
 </body>
