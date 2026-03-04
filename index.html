@@ -406,6 +406,10 @@ body.light-mode .header button:hover {
   transition:
     transform 0.2s ease,
     opacity 0.2s ease;
+
+      position: fixed;
+  pointer-events: none;   /* これ重要 */
+  z-index: 9999; 
 }
 
 /* ホバー時 */
@@ -561,6 +565,96 @@ body.light-mode {
     opacity: 0;
   }
 }
+
+/* =========================
+   カード浮き上がりアニメーション
+========================= */
+
+.daiji,
+.hutu,
+.tyoto,
+.kina,
+.yasa,
+.rize,
+.step,
+.rule {
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.daiji:hover,
+.hutu:hover,
+.tyoto:hover,
+.kina:hover,
+.yasa:hover,
+.rize:hover,
+.step:hover,
+.rule:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 15px 35px -10px rgba(0, 0, 0, 0.4);
+}
+
+.update-item {
+  margin: 12px 0;
+  border-radius: 10px;
+  background: #121212;
+  overflow: hidden;
+    transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+/* ライトモード対応（必ず下に置く） */
+body.light-mode .update-item {
+  background: #c7c7c7;
+  color: #000;
+}
+
+body.light-mode .update-header {
+  color: #000;
+}
+
+.update-item:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 15px 35px -10px rgba(0,0,0,0.4);
+}
+
+.update-header {
+  padding: 15px;
+  font-weight: bold;
+  cursor: pointer;
+  position: relative;
+}
+
+.update-header::after {
+  content: "▶";
+  position: absolute;
+  right: 15px;
+  transition: transform 0.3s ease;
+}
+
+.update-item.active .update-header::after {
+  transform: rotate(90deg);
+}
+
+.update-content {
+  max-height: 0;
+  overflow: hidden;
+  padding: 0 15px;
+
+  transition:
+    max-height 0.6s cubic-bezier(0.25, 0.8, 0.25, 1),
+    padding 0.4s ease,
+    opacity 0.4s ease;
+
+  opacity: 0;
+}
+
+.update-item.active .update-content {
+  max-height: 500px;   /* 余裕を持たせる */
+  padding: 20px 15px;
+  opacity: 1;
+}
     </style>
     <!-- Firebase v8 SDK -->
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
@@ -642,7 +736,7 @@ body.light-mode {
       <section id="admin">
 <p> </p>
         <div class="container">
-        <h1>サーバー関係者</h1>
+        <h1>サーバー運営</h1>
         <div class="kina">
             <h2>きなこむし</h2>
             <p>役割: Owner</p>
@@ -673,7 +767,7 @@ body.light-mode {
 >
   <!-- 名前（任意） -->
   <label>
-    名前（ニックネーム）
+    名前（Discordでのニックネーム）
     <input
       type="text"
       id="name"
@@ -687,7 +781,7 @@ body.light-mode {
     <input
       type="email"
       name="email"
-      placeholder="メールアドレス（任意）　メールアドレスを入力するとオーナーのGmailへ直接届きます。">
+      placeholder="メールアドレス（任意）">
   </label>
 
   <!-- メッセージ -->
@@ -721,86 +815,125 @@ body.light-mode {
     <div class="container">
         <h1>サイト更新情報</h1>
 
-            <div class="hutu">
-            <h2>v1.6.2　26/3/3</h2>
-            <p>現在のページの閲覧数を見れるようになりました。</p>
-        </div>
+<div class="daiji updates">
+  <div class="update-item active">
+    <div class="update-header">v1.6.3</div>
+    <div class="update-content">
+          <p>26/3/5</p>
+            <p>更新情報をより見やすくしました。</p>
+            <p>更新情報の誤字を修正しました。</p>
+            <p>項目へカーソルを移動したときにアニメーションが追加されました。</p>
+    </div>
+  </div>
 
-            <div class="hutu">
-            <h2>v1.6.1　26/3/2</h2>
+    <div class="update-item">
+    <div class="update-header">v1.6.2</div>
+    <div class="update-content">
+          <p>26/3/3</p>
+            <p>現在のページの閲覧数を見れるようになりました。</p>
+    </div>
+  </div>
+
+    <div class="update-item">
+    <div class="update-header">v1.6.1</div>
+    <div class="update-content">
+          <p>26/3/2</p>
             <p>スマホで専用のカーソルを表示させないようにしました。</p>
             <p>クリック・タップをするとエフェクトが出るようになりました。</p>
-        </div>
+    </div>
+  </div>
 
-            <div class="daiji">
-            <h2>v1.6.0　26/2/26</h2>
+    <div class="update-item">
+    <div class="update-header">v1.6.0</div>
+    <div class="update-content">
+          <p>26/2/26</p>
             <p>お問い合わせの欄から簡単に送信出来るようにしました。入力された内容はサーバーをより良くするために使われます。(オーナーのみ閲覧することができます。)</p>
 <p>項目を移動すると表示されたり非表示になったりするようになりました。</p>
 <p>マウスカーソルがこのサイトでのみ変わるようにしました。</p>
-        </div>
+    </div>
+  </div>
 
-            <div class="hutu">
-            <h2>v1.5.1　26/2/20</h2>
+    <div class="update-item">
+    <div class="update-header">v1.5.1</div>
+    <div class="update-content">
+          <p>26/2/20</p>
             <p>メニューのボタンにアイコンを追加しました。</p>
             <p>メニュをスマートフォン用に改良しました。</p>
-        </div>
+    </div>
+  </div>
 
-            <div class="daiji">
-            <h2>v1.5.0　26/2/19</h2>
+    <div class="update-item">
+    <div class="update-header">v1.5.0</div>
+    <div class="update-content">
+          <p>26/2/19</p>
             <p>メニューを変更しました。</p>
-        </div>
-            <div class="hutu">
-            <h2>v1.4.1　26/2/16</h2>
-            <p>メニューの修正とお問い合わせ方法をついかしました。</p>
-        </div>
+    </div>
+  </div>
 
-            <div class="daiji">
-            <h2>v1.4.0　26/2/14</h2>
+    <div class="update-item">
+    <div class="update-header">v1.4.1</div>
+    <div class="update-content">
+          <p>26/2/16</p>
+            <p>メニューの修正とお問い合わせ方法を追加しました。</p>
+    </div>
+  </div>
+
+    <div class="update-item">
+    <div class="update-header">v1.4.0</div>
+    <div class="update-content">
+          <p>26/2/14</p>
             <p>サイトを一つにしました。</p>
             <p>ボタンを変更して全てメニューの中に移動しました。</p>
             <p>ルールの文を少し変更しました。</p>
-        </div>
-
-            <div class="daiji">
-            <h2>v1.3.0　26/2/9</h2>
+    </div>
+  </div>
+  
+    <div class="update-item">
+    <div class="update-header">v1.3.0</div>
+    <div class="update-content">
+          <p>26/2/9</p>
             <p>サイトを一つのレポジトリにしました。</p>
             <p>メニューボタンを変更しました。</p>
             <p>画像も背景に合わせてフェードで切り替わるようになりました。</p>
             <p>ボタンとテキストの距離の変更やその他の細かな変更をしました。</p>
-        </div>
+    </div>
+  </div>
 
-         <div class="hutu">
-            <h2>v1.2.1　26/2/7</h2>
+    <div class="update-item">
+    <div class="update-header">v1.2.1</div>
+    <div class="update-content">
+          <p>26/2/7</p>
             <p>ボタンの位置と見た目を変更しました。</p>
-        </div>
+    </div>
+  </div>
 
-        <div class="daiji">
-            <h2>v1.2.0　26/2/1</h2>
+    <div class="update-item">
+    <div class="update-header">v1.2.0</div>
+    <div class="update-content">
+          <p>26/2/1</p>
             <p>メニューでライトモードとダークモードを切り替えられるようにしました。</p>
-        </div>
-        
-        <div class="tyoto">
-            <h2>v1.1.2　26/2/1</h2>
-            <p>ボタンの順を変更しました。</p>
-        </div>
+    </div>
+  </div>
 
-        <div class="hutu">
-            <h2>v1.1.1　26/2/1</h2>
+  <div class="update-item">
+    <div class="update-header">v1.1.0</div>
+    <div class="update-content">
+          <p>26/2/1</p>
+            <p>運営一覧が追加されました。</p>
             <p>更新情報を追加しました。</p>
             <p>ダークモードに変更しました。</p>
-        </div>
-
-        <div class="hutu">
-            <h2>v1.1.0　26/2/1</h2>
-            <p>運営一覧が追加されました。</p>
-        </div>
-
-        <div class="daiji">
-            <h2>v1.0.0　26/2/1</h2>
-            <p>サイトが公開されました。</p>
-        </div>
-
+            <p>ボタンの順を変更しました。</p>
     </div>
+  </div>
+
+  <div class="update-item">
+    <div class="update-header">v1.0.0</div>
+    <div class="update-content">
+      <p>26/2/1</p>
+      <p>サイトが公開されました。</p>
+    </div>
+  </div>
+</div>
   </section>
   </section>
   <div id="custom-cursor"></div>
@@ -844,5 +977,21 @@ connectionsRef.on("value", (snapshot) => {
 });
 </script>
 <script src="index.js"></script>
+
+<script>
+document.querySelectorAll(".update-header").forEach(header => {
+  header.addEventListener("click", () => {
+    const item = header.parentElement;
+
+    document.querySelectorAll(".update-item").forEach(other => {
+      if (other !== item) {
+        other.classList.remove("active");
+      }
+    });
+
+    item.classList.toggle("active");
+  });
+});
+</script>
 </body>
 </html>
