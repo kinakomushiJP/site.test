@@ -124,6 +124,36 @@
       cursor: pointer;
     }
 
+            .youtubebtn {
+      display: inline-block;
+      background: linear-gradient(90deg, #ff2323, rgb(194, 0, 0));
+      color: rgb(255, 255, 255);
+      padding: 1rem 2.4rem;
+      border-radius: 27px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1.15rem;
+      box-shadow: 0 10px 30px -10px #ff2558;
+      transition: all 0.3s;
+      border: none;
+      cursor: pointer;
+    }
+
+            .xbtn {
+      display: inline-block;
+      background: linear-gradient(90deg, #333333, rgb(81, 81, 81));
+      color: rgb(255, 255, 255);
+      padding: 1rem 2.4rem;
+      border-radius: 27px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1.15rem;
+      box-shadow: 0 10px 30px -10px #7a7a7a;
+      transition: all 0.3s;
+      border: none;
+      cursor: pointer;
+    }
+
     .nobtn {
       display: inline-block;
       background: linear-gradient(90deg, #434343, rgb(95, 95, 95));
@@ -146,6 +176,17 @@
            .nobtn:hover {
       box-shadow: 0 20px 40px -10px #1a1a1a80;
       background: linear-gradient(90deg, #393939, #282828);
+    }
+        .youtubebtn:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 40px -10px #af1e1e80;
+      background: linear-gradient(90deg, #dc3d3d, #ff5381);
+    }
+
+        .xbtn:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 40px -10px #4a4a4a80;
+      background: linear-gradient(90deg, #6d6d6d, #616161);
     }
         .disbtn:hover {
       transform: translateY(-4px);
@@ -699,6 +740,13 @@ body.light-mode .update-header {
             <p> </p>
             <div class="center-x-text">一言 : 安心安全のサーバーを作って行きます。</div>
             <p> </p>
+    <div class="center-x-text"><button class="youtubebtn" onclick="window.location.href='https://www.youtube.com/@kinakomushi_jp'">
+    <span class="text">Youtube</span>
+  </button></div>
+<p> </p>
+    <div class="center-x-text"><button class="xbtn" onclick="window.location.href='https://x.com/kinakomushi_jp/'">
+    <span class="text">X</span>
+  </button></div>
         </div>
         <script src="index.js"></script>
 </body>
