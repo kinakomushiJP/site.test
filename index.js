@@ -467,3 +467,102 @@ const menu = document.getElementById("topMenu");
 toggle.addEventListener("click", () => {
   menu.classList.toggle("open");
 });
+
+async function updateDiscordOnline(){
+
+  const guildId = "1338724961145192570";
+
+const res=await fetch(`https://discord.com/api/guilds/${guildId}/widget.json`);
+
+const data=await res.json();
+
+const humans=data.members.filter(m =>
+!m.bot &&
+!m.username.toLowerCase().includes("!bot")
+);
+
+const element=document.getElementById("discordOnline");
+
+const oldValue=parseInt(element.textContent)||0;
+
+const newValue=humans.length;
+
+animateCount(element,oldValue,newValue,500);
+
+}
+
+/* 初回 */
+updateDiscordOnline();
+
+/* 30秒ごと更新 */
+setInterval(updateDiscordOnline,30000);
+
+function animateCount(element,start,end,duration){
+
+let startTime=null;
+
+function update(time){
+
+if(!startTime) startTime=time;
+
+const progress=Math.min((time-startTime)/duration,1);
+
+const value=Math.floor(progress*(end-start)+start);
+
+element.textContent=value;
+
+if(progress<1){
+requestAnimationFrame(update);
+}
+
+}
+
+requestAnimationFrame(update);
+
+}
+
+fetch("https://discord.com/api/guilds/1338724961145192570/widget.json")
+.then(res => res.json())
+.then(data => {
+
+const container = document.querySelector(".discord-users");
+if(!container) return;
+
+container.innerHTML = "";
+
+const members = data.members;
+
+members.forEach(member => {
+
+const name = member.username || member.name || "";
+
+/* !Botユーザー除外 */
+if(name.toLowerCase().startsWith("!bot")) return;
+
+/* アイコン作成 */
+const img = document.createElement("img");
+img.src = member.avatar_url;
+img.className = "discord-avatar";
+img.dataset.name = name;
+
+/* 追加 */
+container.appendChild(img);
+
+});
+
+});
+
+const showBtn = document.getElementById("showAllUsers");
+const userContainer = document.querySelector(".discord-users");
+
+showBtn.onclick = () => {
+
+  userContainer.classList.toggle("open");
+
+  if(userContainer.classList.contains("open")){
+    showBtn.textContent = "一部表示";
+  }else{
+    showBtn.textContent = "すべて表示";
+  }
+
+};

@@ -701,6 +701,245 @@ body.light-mode .top-menu {
 #headerToggle{
   font-size:18px;
 }
+
+.status-card{
+
+background:var(--card-bg,#171717);
+
+padding:18px 26px;
+
+border-radius:14px;
+
+display:flex;
+justify-content:space-between;
+align-items:center;
+
+transition: transform 0.25s ease, box-shadow 0.25s ease;
+
+}
+
+.status-card:hover{
+
+transform: translateY(-6px) scale(1.03);
+
+box-shadow:0 12px 30px rgba(0,0,0,0.15);
+
+}
+
+/* ライトモード */
+body.light-mode .status-card {
+    background: #f5f5f5;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+
+.status-item{
+
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+
+  font-size:16px;
+  font-weight:600;
+
+}
+
+.status-item span{
+
+  font-size:22px;
+  font-weight:bold;
+
+}
+
+body{
+
+transition: background-color 0.35s ease, color 0.35s ease;
+
+}
+
+.discord-label{
+display:flex;
+align-items:center;
+gap:6px;
+}
+
+.discord-icon{
+width:20px;
+height:20px;
+}
+
+.discord-users{
+display:flex;
+align-items:center;
+margin-top:10px;
+min-height:40px;
+}
+
+.discord-avatar{
+
+width:36px;
+height:36px;
+border-radius:50%;
+margin-right:-8px;
+border:2px solid var(--background);
+
+transition:transform .2s;
+
+}
+
+.discord-avatar:hover{
+transform:scale(1.1);
+z-index:5;
+}
+
+/* 4人目ぼかし */
+
+.discord-avatar.blur{
+filter:blur(3px);
+opacity:.6;
+}
+
+/* フェードアウト */
+
+.discord-avatar.fade{
+opacity:0;
+}
+
+/* フッター */
+
+.discord-footer{
+text-align:right;
+font-size:12px;
+margin-top:6px;
+}
+
+.discord-footer button{
+background:none;
+border:none;
+color:var(--text-secondary);
+cursor:pointer;
+}
+
+/* モーダル */
+
+.discord-modal{
+display:none;
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.4);
+justify-content:center;
+align-items:center;
+}
+
+.discord-modal-content{
+background:var(--card-bg);
+padding:20px;
+border-radius:12px;
+max-width:400px;
+display:flex;
+flex-wrap:wrap;
+gap:10px;
+}
+
+.discord-modal img{
+width:42px;
+height:42px;
+border-radius:50%;
+}
+
+#closeModal{
+position:absolute;
+cursor:pointer;
+}
+
+.discord-card{
+padding:16px;
+border-radius:14px;
+background:var(--card-bg);
+width:260px;
+}
+
+.discord-header{
+display:flex;
+align-items:center;
+gap:8px;
+font-weight:600;
+}
+
+.discord-users{
+display:flex;
+flex-wrap:wrap;
+gap:6px;
+
+overflow:hidden;
+
+/* 初期状態（2行くらい） */
+max-height:90px;
+
+transition:max-height .5s ease;
+}
+
+/* 全表示 */
+.discord-users.open{
+max-height:2000px;
+}
+
+
+/* アイコン */
+.discord-avatar{
+
+width:36px;
+height:36px;
+
+border-radius:50%;
+object-fit:cover;
+
+position:relative;
+display:block;
+
+opacity:1;
+transform:none;
+
+transition:all .35s ease;
+
+}
+
+
+/* アニメーション用 */
+.discord-avatar.show{
+opacity:1;
+transform:translateY(0);
+}
+
+
+/* ツールチップ */
+.discord-avatar::after{
+
+content:attr(data-name);
+
+position:absolute;
+bottom:120%;
+left:50%;
+transform:translateX(-50%);
+
+background:#111;
+color:#fff;
+
+padding:4px 7px;
+border-radius:6px;
+
+font-size:11px;
+white-space:nowrap;
+
+opacity:0;
+transition:.2s;
+
+pointer-events:none;
+
+}
+
+.discord-avatar:hover::after{
+opacity:1;
+}
     </style>
     <!-- Firebase v8 SDK -->
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
@@ -755,12 +994,60 @@ body.light-mode .top-menu {
         <div class="container">
           <img src="image/server1.png" class="responsive-img">
           <h1>絵文字・雑談サーバー</h1>
-          <div class="step">
-          <h2>現在の閲覧数</h2>
-          <p><span id="viewerCount">-</span> 人が閲覧中</p>
+<div class="status-card">
+  <div class="status-item">
+    👀 サイト閲覧中
+    <span id="viewerCount">-</span>
+  </div>
+<div class="discord-card">
+
+  <div class="discord-header">
+    <svg class="discord-icon" viewBox="0 0 24 24">
+      <path fill="currentColor"
+      d="M20.317 4.369a19.791 19.791 0 0 0-4.885-1.515
+      .074.074 0 0 0-.079.037c-.211.375-.444.864-.608
+      1.249a18.27 18.27 0 0 0-5.487 0
+      c-.164-.385-.405-.874-.617-1.249
+      a.077.077 0 0 0-.079-.037
+      19.736 19.736 0 0 0-4.885 1.515
+      .07.07 0 0 0-.032.027
+      C.533 9.046-.32 13.579.099 18.057
+      a.082.082 0 0 0 .031.055
+      19.9 19.9 0 0 0 5.993 3.03
+      .078.078 0 0 0 .084-.027
+      c.462-.63.873-1.295 1.226-1.994
+      a.076.076 0 0 0-.041-.105
+      13.107 13.107 0 0 1-1.872-.892
+      .077.077 0 0 1-.008-.128
+      c.126-.094.252-.192.372-.291
+      a.074.074 0 0 1 .077-.01
+      c3.927 1.793 8.18 1.793 12.061 0
+      a.074.074 0 0 1 .078.009
+      c.12.099.246.198.373.292
+      a.077.077 0 0 1-.006.128
+      12.299 12.299 0 0 1-1.873.891
+      a.076.076 0 0 0-.04.106
+      c.36.698.771 1.363 1.225 1.993
+      a.076.076 0 0 0 .084.028
+      19.84 19.84 0 0 0 6.002-3.03
+      a.077.077 0 0 0 .03-.055
+      c.5-5.177-.838-9.674-3.549-13.66
+      a.061.061 0 0 0-.031-.03z"/>
+    </svg>
+    <span class="discord-title">Discord</span>
+    <span id="discordOnline">0</span>
+  </div>
+
+  <!-- アイコン行 -->
+  <div id="discordUsers" class="discord-users"></div>
+  <!-- ボタン行 -->
+  <div class="discord-footer">
+    <button id="showAllUsers">すべて表示</button>
+  </div>
+
 </div>
-<p>ㅤ</p>
-<p>ㅤ</p>
+</div>
+
         <h1>"絵文字雑談サーバー"へ参加しよう！</h1>
         <div class="step">
     <h2>サーバーについての説明</h2>
