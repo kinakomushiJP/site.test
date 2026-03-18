@@ -39,6 +39,10 @@ document.addEventListener("DOMContentLoaded", () => {
       light: "https://github.com/kinakomushiJP/kinakomushi.discord/blob/main/image/otoiawase_light.png?raw=true",
       dark:  "https://github.com/kinakomushiJP/kinakomushi.discord/blob/main/image/otoiawase_dark.png?raw=true"
     },
+    profile: {
+      light: "https://github.com/kinakomushiJP/kinakomushi.discord/blob/main/image/otoiawase_light.png?raw=true",
+      dark:  "https://github.com/kinakomushiJP/kinakomushi.discord/blob/main/image/otoiawase_dark.png?raw=true"
+    },
     version: {
       light: "https://github.com/kinakomushiJP/kinakomushi.discord/blob/main/image/kousin_light.png?raw=true",
       dark:  "https://github.com/kinakomushiJP/kinakomushi.discord/blob/main/image/kousin_dark.png?raw=true"
@@ -62,35 +66,42 @@ document.addEventListener("DOMContentLoaded", () => {
   /* =========================
      テーマ切替（1ボタン）
   ========================= */
-  const themeIcons = {
-    light: "https://github.com/kinakomushiJP/kinakomushi.discord/blob/main/image/light_mode.png?raw=true",
-    dark:  "https://github.com/kinakomushiJP/kinakomushi.discord/blob/main/image/dark_mode.png?raw=true"
-  };
 
-  function setTheme(theme) {
-    // フェードアウト
-    themeIcon.style.opacity = 0;
-    if (serverImg) serverImg.style.opacity = 0;
+function setTheme(theme) {
 
-    setTimeout(() => {
-      if (theme === "light") {
-        document.body.classList.add("light-mode");
-        themeIcon.src = themeIcons.light;
-        if (serverImg) serverImg.src = "image/main_dark.png";
-      } else {
-        document.body.classList.remove("light-mode");
-        themeIcon.src = themeIcons.dark;
-        if (serverImg) serverImg.src = "image/main_light.png";
-      }
+  themeIcon.style.opacity = 0;
+  if (serverImg) serverImg.style.opacity = 0;
 
-      // フェードイン
-      themeIcon.style.opacity = 1;
-      if (serverImg) serverImg.style.opacity = 1;
+  setTimeout(() => {
 
-      localStorage.setItem("theme", theme);
-      updateHeaderIcons(theme);
-    }, 300);
-  }
+    // まずアイコンリセット
+    themeIcon.classList.remove("typcn-weather-sunny", "typcn-weather-night");
+
+    if (theme === "light") {
+      document.body.classList.add("light-mode");
+
+      // 🌙（次にダークになる）
+      themeIcon.classList.add("typcn", "typcn-weather-night");
+
+      if (serverImg) serverImg.src = "image/main_dark.png";
+
+    } else {
+      document.body.classList.remove("light-mode");
+
+      // ☀（次にライトになる）
+      themeIcon.classList.add("typcn", "typcn-weather-sunny");
+
+      if (serverImg) serverImg.src = "image/main_light.png";
+    }
+
+    themeIcon.style.opacity = 1;
+    if (serverImg) serverImg.style.opacity = 1;
+
+    localStorage.setItem("theme", theme);
+    updateHeaderIcons(theme);
+
+  }, 300);
+}
 
   /* =========================
      初期化
@@ -566,3 +577,97 @@ showBtn.onclick = () => {
   }
 
 };
+
+const toggleDiscord = document.getElementById("toggle-discord");
+const discordCard = document.getElementById("discord-card");
+
+if(toggleDiscord && discordCard){
+
+toggleDiscord.addEventListener("change", () => {
+
+if(toggleDiscord.checked){
+discordCard.style.display = "block";
+}else{
+discordCard.style.display = "none";
+}
+
+});
+
+}
+
+/* =========================
+   設定システム
+========================= */
+
+function saveSetting(name,value){
+  localStorage.setItem(name,value);
+}
+
+function loadSetting(name,defaultValue){
+  const value = localStorage.getItem(name);
+  return value === null ? defaultValue : value === "true";
+}
+
+/* ページ読み込み後に設定適用 */
+document.addEventListener("DOMContentLoaded", () => {
+
+  /* ===== ブラー設定 ===== */
+
+  const blurToggle = document.getElementById("toggle-blur");
+
+  if (blurToggle) {
+
+    const blurEnabled = loadSetting("blurEffect", true);
+
+    blurToggle.checked = blurEnabled;
+
+    if (!blurEnabled) {
+      document.body.classList.add("blur-off");
+    }
+
+    blurToggle.addEventListener("change", () => {
+
+      saveSetting("blurEffect", blurToggle.checked);
+
+      document.body.classList.toggle("blur-off", !blurToggle.checked);
+
+    });
+
+  }
+
+});
+
+/* =========================
+   設定パネル開閉
+========================= */
+
+const settingsBtn = document.getElementById("settingsBtn");
+const settingsPanel = document.getElementById("settingsPanel");
+
+if (settingsBtn && settingsPanel) {
+
+  settingsBtn.addEventListener("click", () => {
+
+    settingsPanel.classList.toggle("open");
+
+  });
+
+}
+
+let cursorEnabled = true;
+
+function disableCursor() {
+  cursorEnabled = false;
+
+  document.body.classList.add("cursor-off");
+
+  if (cursor) {
+    cursor.remove();
+    cursor = null;
+  }
+
+  if (dot) {
+    dot.remove();
+    dot = null;
+  }
+}

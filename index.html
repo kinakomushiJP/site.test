@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" type="image/x-icon" href="./favicon.ico">
     <title>絵文字雑談サーバー公式サイト</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/typicons/2.0.9/typicons.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body {
@@ -940,6 +941,178 @@ pointer-events:none;
 .discord-avatar:hover::after{
 opacity:1;
 }
+
+.setting-item{
+display:flex;
+align-items:center;
+justify-content:space-between;
+margin:12px 0;
+}
+
+.setting-label{
+font-size:14px;
+}
+
+/* スイッチ本体 */
+.switch{
+position:relative;
+display:inline-block;
+width:46px;
+height:26px;
+}
+
+/* チェックボックス非表示 */
+.switch input{
+opacity:0;
+width:0;
+height:0;
+}
+
+/* 背景 */
+.slider{
+position:absolute;
+cursor:pointer;
+top:0;
+left:0;
+right:0;
+bottom:0;
+background:#ccc;
+border-radius:26px;
+transition:0.25s;
+}
+
+/* 白い丸 */
+.slider::before{
+content:"";
+position:absolute;
+height:20px;
+width:20px;
+left:3px;
+top:3px;
+background:white;
+border-radius:50%;
+transition:0.25s;
+}
+
+/* ON */
+input:checked + .slider{
+background:#4cd964;
+}
+
+/* 丸移動 */
+input:checked + .slider::before{
+transform:translateX(20px);
+}
+
+#settingsBtn{
+position:fixed;
+right:20px;
+bottom:20px;
+font-size:22px;
+background:#5865F2;
+color:white;
+border:none;
+border-radius:50%;
+width:50px;
+height:50px;
+cursor:pointer;
+z-index:1000;
+}
+
+.settings-panel{
+position:fixed;
+right:20px;
+bottom:80px;
+width:260px;
+padding:16px;
+border-radius:14px;
+
+background:var(--card-bg);
+backdrop-filter:blur(10px);
+
+box-shadow:0 10px 30px rgba(0,0,0,0.2);
+
+opacity:0;
+transform:translateY(20px);
+pointer-events:none;
+
+transition:.3s;
+}
+
+.settings-panel.open{
+opacity:1;
+transform:translateY(0);
+pointer-events:auto;
+}
+
+.setting-item{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin:10px 0;
+}
+
+.hide-header-icons .header .icon{
+display:none;
+}
+
+.blur-off #custom-cursor{
+filter:none !important;
+}
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip-box {
+  position: absolute;
+  bottom: 70%;
+  left: 50%;
+  transform: translateX(-50%);
+
+  background: #333;
+  color: white;
+
+  padding: 10px 14px;
+  border-radius: 12px;
+
+  opacity: 0;
+  visibility: hidden;
+
+  transition: 0.2s;
+
+  pointer-events: none;
+
+  margin-bottom: 2px;
+}
+
+.tooltip:hover .tooltip-box {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+/* リンク */
+.tooltip-box a {
+  color: white;
+}
+
+.tooltip-box a:hover {
+  color: #00ff88;
+}
+
+body.cursor-off #custom-cursor,
+body.cursor-off #cursor-dot,
+body.cursor-off .cursor-ripple{
+  display: none !important;
+}
+
+/* カーソルOFF時は通常カーソルに戻す */
+body.cursor-off,
+body.cursor-off * {
+  cursor: auto !important;
+}
     </style>
     <!-- Firebase v8 SDK -->
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
@@ -956,6 +1129,7 @@ opacity:1;
 
     <div class="top-menu" id="topMenu">
 <button onclick="window.location.href='https://kinakomushijp.github.io/kinakomushi.discord/profile.html'">
+    <span class="typcn typcn-user"></span>
     <span class="text">プロフィール</span>
   </button>
     </div>
@@ -963,28 +1137,43 @@ opacity:1;
     <button id="headerToggle">▲</button>
 
   <button data-scroll="home" data-icon="home">
-    <img class="icon" alt="">
+    <span class="typcn typcn-home"></span>
     <span class="text">ホーム</span>
   </button>
 
   <button data-scroll="admin" data-icon="admin">
-    <img class="icon" alt="">
+    <span class="typcn typcn-group"></span>
     <span class="text">運営一覧</span>
   </button>
 
   <button data-scroll="otoiawase" data-icon="otoiawase">
-    <img class="icon" alt="">
+    <span class="typcn typcn-warning"></span>
     <span class="text">お問い合わせ</span>
   </button>
 
   <button data-scroll="version" data-icon="version">
-    <img class="icon" alt="">
+    <span class="typcn typcn-spanner"></span>
     <span class="text">更新情報</span>
   </button>
 
-<button id="theme-toggle" class="theme-toggle">
-  <img id="theme-icon" alt="theme toggle">
+<button id="settingsBtn">⚙</button>
+
+<div id="settingsPanel" class="settings-panel">
+
+<button id="theme-toggle">
+  <span id="theme-icon" class="typcn"></span>
 </button>
+
+  <h2>カーソル設定</h2>
+
+  <div class="setting-item">
+    <span class="typcn typcn-database"></span><span>ブラーエフェクト</span>
+    <label class="switch">
+      <input type="checkbox" id="toggle-blur">
+      <span class="slider"></span>
+    </label>
+  </div>
+
 </header>
 
 <p> </p>
@@ -996,7 +1185,7 @@ opacity:1;
           <h1>絵文字・雑談サーバー</h1>
 <div class="status-card">
   <div class="status-item">
-    👀 サイト閲覧中
+    <span class="typcn typcn-eye"></span> サイト閲覧中
     <span id="viewerCount">-</span>
   </div>
 <div class="discord-card">
@@ -1068,6 +1257,8 @@ opacity:1;
             <p>情報を抜き取る様なものや、他者へ危害を加える行為は禁止とします。他のDiscordサーバーへの宣伝などは専用のチャンネルでお願い致します。</p>
             <h2>参加後すぐの脱退について</h2>
             <p>参加直後の脱退を繰り返す行為は、運営判断により利用制限や永久追放の対象となる場合があります。</p>
+            <h2>最後に確認してください。</h2>
+            <p><div class="tooltip"><span class="tooltip-trigger">Discordコミュニティガイドライン</span> <div class="tooltip-box"><br> <a href="https://discord.com/guidelines" target="_blank">https://discord.com/guidelines</a></div></div>を守ってください。</p>
             <p>本規約に違反した場合、運営の判断により警告、メッセージ削除、タイムアウト、追放等の措置を行う場合があります。</p>
             <p>ルールを全て拝読し、承諾していただけた場合はDiscordサーバーへご参加ください。</p>
             <button class="disbtn" onclick="window.location.href='https://kinakomushijp.github.io/kinakomushi.discord/server.html'">Discordサーバーに参加</button>
@@ -1092,13 +1283,14 @@ opacity:1;
         </div>
         <div class="rize">
             <h2>幻庭 恋灯</h2>
-            <p>役割: Sub Admin</p>
+            <p>役割: Sub Admin (一時的にロールを外しています。)</p>
             <img src="image/rizeruhosi.png">
         </div>
     </div>
       </section>
 </section>
 <p> </p>
+
 <section class="scroll-section" id="otoiawase">
 <section id="otoiawase">
   <div class="container">
@@ -1159,6 +1351,27 @@ opacity:1;
         <h1>サイト更新情報</h1>
 <div class="daiji updates">
     <div class="update-item active">
+    <div class="update-header">v1.7.2</div>
+    <div class="update-content">
+          <p>26/3/19</p>
+          <p>規約にDiscordのコミュニティガイドラインのリンクを記載しました。</p>
+          <p>右下のメニューへライトモードダークモードの切り替えボタンを移動しました。</p>
+          <p>右下のメニューからカーソルのブラーをオンオフ出来るようになりました。</p>
+          <p>固定ヘッダーのアイコンなどを画像からアイコン専用のフォントへ変えて、読み込みが遅くなってしまっていた問題を解決しました。</p>
+          <p>1.7.1の情報を載せました。</p>
+    </div>
+  </div>
+
+    <div class="update-item">
+    <div class="update-header">v1.7.1</div>
+    <div class="update-content">
+          <p>26/3/14</p>
+            <p>Discordサーバーでオンラインのメンバーの数とアバターを表示できるようにしました。</p>
+            <p>今のところ、大分完成してるので更新の頻度は落ちると思います。</p>
+    </div>
+  </div>
+
+    <div class="update-item">
     <div class="update-header">v1.7.0</div>
     <div class="update-content">
           <p>26/3/6</p>
@@ -1327,7 +1540,6 @@ connectionsRef.on("value", (snapshot) => {
   document.getElementById("viewerCount").textContent = count;
 });
 </script>
-<script src="index.js"></script>
 
 <script>
 document.querySelectorAll(".update-header").forEach(header => {
@@ -1345,4 +1557,5 @@ document.querySelectorAll(".update-header").forEach(header => {
 });
 </script>
 </body>
+<script src="index.js"></script>
 </html>
