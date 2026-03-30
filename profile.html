@@ -3,7 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="./favicon.ico">
     <title>絵文字雑談サーバー公式サイトプロフィール</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/typicons/2.0.9/typicons.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
         <style>
         body {
             font-family: 'Noto Sans JP', sans-serif;
@@ -709,16 +712,190 @@ body.light-mode .update-header {
   margin-left: auto;
   margin-right: auto;
 }
+
+.setting-item{
+display:flex;
+align-items:center;
+justify-content:space-between;
+margin:12px 0;
+}
+
+.setting-label{
+font-size:14px;
+}
+
+/* スイッチ本体 */
+.switch{
+position:relative;
+display:inline-block;
+width:46px;
+height:26px;
+}
+
+/* チェックボックス非表示 */
+.switch input{
+opacity:0;
+width:0;
+height:0;
+}
+
+/* 背景 */
+.slider{
+position:absolute;
+cursor:pointer;
+top:0;
+left:0;
+right:0;
+bottom:0;
+background:#ccc;
+border-radius:26px;
+transition:0.25s;
+}
+
+/* 白い丸 */
+.slider::before{
+content:"";
+position:absolute;
+height:20px;
+width:20px;
+left:3px;
+top:3px;
+background:white;
+border-radius:50%;
+transition:0.25s;
+}
+
+/* ON */
+input:checked + .slider{
+background:#4cd964;
+}
+
+/* 丸移動 */
+input:checked + .slider::before{
+transform:translateX(20px);
+}
+
+#settingsBtn{
+position:fixed;
+right:20px;
+bottom:20px;
+font-size:22px;
+background:#5865F2;
+color:white;
+border:none;
+border-radius:50%;
+width:50px;
+height:50px;
+cursor:pointer;
+z-index:1000;
+}
+
+.settings-panel{
+position:fixed;
+right:20px;
+bottom:80px;
+width:260px;
+padding:16px;
+border-radius:14px;
+
+background:var(--card-bg);
+backdrop-filter:blur(10px);
+
+box-shadow:0 10px 30px rgba(0,0,0,0.2);
+
+opacity:0;
+transform:translateY(20px);
+pointer-events:none;
+
+transition:.3s;
+}
+
+.settings-panel.open{
+opacity:1;
+transform:translateY(0);
+pointer-events:auto;
+}
+
+.setting-item{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin:10px 0;
+}
+
+.hide-header-icons .header .icon{
+display:none;
+}
+
+.blur-off #custom-cursor{
+filter:none !important;
+}
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip-box {
+  position: absolute;
+  bottom: 70%;
+  left: 50%;
+  transform: translateX(-50%);
+
+  background: #333;
+  color: white;
+
+  padding: 10px 14px;
+  border-radius: 12px;
+
+  opacity: 0;
+  visibility: hidden;
+
+  transition: 0.2s;
+
+  pointer-events: none;
+
+  margin-bottom: 2px;
+}
+
+.tooltip:hover .tooltip-box {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+/* リンク */
+.tooltip-box a {
+  color: white;
+}
+
+.tooltip-box a:hover {
+  color: #00ff88;
+}
+
+body.cursor-off #custom-cursor,
+body.cursor-off #cursor-dot,
+body.cursor-off .cursor-ripple{
+  display: none !important;
+}
+
+/* カーソルOFF時は通常カーソルに戻す */
+body.cursor-off,
+body.cursor-off * {
+  cursor: auto !important;
+}
     </style>
 </head>
 <body>
-    <header class="header">
+<header class="header">
+
+  <button data-scroll="home" data-icon="home">
 <button onclick="window.location.href='https://kinakomushijp.github.io/kinakomushi.discord/index.html'">
     <span class="text">絵文字・雑談サーバー</span>
   </button>
-    </div>
-    <button id="theme-toggle" class="theme-toggle">
-  <img id="theme-icon" alt="theme toggle">
+
+<button id="theme-toggle">
+  <span id="theme-icon" class="typcn"></span>
 </button>
 </header>
 

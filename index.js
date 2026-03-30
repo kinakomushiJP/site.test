@@ -637,37 +637,3 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 
-/* =========================
-   設定パネル開閉
-========================= */
-
-const settingsBtn = document.getElementById("settingsBtn");
-const settingsPanel = document.getElementById("settingsPanel");
-
-if (settingsBtn && settingsPanel) {
-
-  settingsBtn.addEventListener("click", () => {
-
-    settingsPanel.classList.toggle("open");
-
-  });
-
-}
-
-let cursorEnabled = true;
-
-function disableCursor() {
-  cursorEnabled = false;
-
-  document.body.classList.add("cursor-off");
-
-  if (cursor) {
-    cursor.remove();
-    cursor = null;
-  }
-
-  if (dot) {
-    dot.remove();
-    dot = null;
-  }
-}

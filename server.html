@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="./favicon.ico">
     <title>絵文字雑談サーバー公式サイトサーバー</title>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/typicons/2.0.9/typicons.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
@@ -901,33 +902,1125 @@ body.cursor-off,
 body.cursor-off * {
   cursor: auto !important;
 }
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            background-color: #101010;
+            color: #ffffff;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .daiji, .hutu, .tyoto {
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 5px;
+            background: #1b1b1b;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        body.light-mode .daiji,
+        body.light-mode .hutu,
+        body.light-mode .tyoto {
+            background: #e0e0e0;
+            color: #000;
+        }
+
+        .daiji { border-left: 5px solid #a600ff; }
+        .hutu  { border-left: 5px solid #267dff; }
+        .tyoto { border-left: 5px solid #4eff80; }
+
+        .kina, .yasa, .rize {
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 5px;
+            background: #1b1b1b;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        body.light-mode .kina,
+        body.light-mode .yasa,
+        body.light-mode .rize {
+            background: #e0e0e0;
+            color: #000;
+        }
+
+        .kina { border-left: 5px solid #0dd1c4; }
+        .yasa { border-left: 5px solid #22cb30; }
+        .rize { border-left: 5px solid #7162c6; }
+
+        body.light-mode {
+            background-color: #ffffff;
+            color: #000000;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #252525;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        body.light-mode .container {
+            background: #f5f5f5;
+            color: #000000;
+        }
+
+        h1 {
+            font-size: 24px;
+            color: inherit;
+            text-align: center;
+        }
+
+        .step, .rule {
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 5px;
+            background: #1b1b1b;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        body.light-mode .step, body.light-mode .rule {
+            background: #e0e0e0;
+            color: #000;
+        }
+
+        .step { border-left: 5px solid #007bff; }
+        .rule { border-left: 5px solid #ff2e2e; }
+
+        .btn {
+      display: inline-block;
+      background: linear-gradient(90deg, #007bff, rgb(0, 115, 255));
+      color: rgb(255, 255, 255);
+      padding: 1rem 2.4rem;
+      border-radius: 27px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1.15rem;
+      box-shadow: 0 10px 30px -10px #6663ff;
+      transition: all 0.3s;
+      border: none;
+      cursor: pointer;
+    }
+        .disbtn {
+      display: inline-block;
+      background: linear-gradient(90deg, #25e100, rgb(0, 200, 7));
+      color: rgb(255, 255, 255);
+      padding: 1rem 2.4rem;
+      border-radius: 27px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1.15rem;
+      box-shadow: 0 10px 30px -10px #008e18;
+      transition: all 0.3s;
+      border: none;
+      cursor: pointer;
+    }
+
+    .nobtn {
+      display: inline-block;
+      background: linear-gradient(90deg, #434343, rgb(95, 95, 95));
+      color: rgb(255, 255, 255);
+      padding: 1rem 2.4rem;
+      border-radius: 27px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1.15rem;
+      box-shadow: 0 10px 30px -10px #2e2e2e;
+      transition: all 0.3s;
+      border: none;
+      cursor: pointer;
+    }
+    .btn:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 40px -10px #1e40af80;
+      background: linear-gradient(90deg, #50a4ff, #53a0ff);
+    }
+           .nobtn:hover {
+      box-shadow: 0 20px 40px -10px #1a1a1a80;
+      background: linear-gradient(90deg, #393939, #282828);
+    }
+        .disbtn:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 40px -10px #1eaf3180;
+      background: linear-gradient(90deg, #40ff39, #5cff43);
+    }
+
+        @media (max-width: 768px) {
+            .container { padding: 15px; }
+            h1 { font-size: 20px; }
+            .btn { font-size: 16px; }
+        }
+
+        /* -------------------
+           右上メニュー用スタイル
+        ------------------- */
+        .menu-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+/* メニューを隠す状態 */
+.menu-container.hide {
+    transform: translateY(-120%);
+    opacity: 0;
+    pointer-events: none;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+/* 通常表示（デフォルト） */
+.menu-container {
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+        .menu-toggle {
+      background: linear-gradient(90deg, #007bff, rgb(0, 115, 255));
+      color: rgb(255, 255, 255);
+      padding: 1rem 2.4rem;
+      border-radius: 27px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1.15rem;
+      box-shadow: 0 10px 30px -10px #6663ff;
+      transition: all 0.3s;
+      border: none;
+      cursor: pointer;
+        }
+
+.menu {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    padding: 10px;
+    width: 160px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+
+    max-height: 300px;   /* ← 枠の高さをちゃんと確保 */
+    overflow-y: auto;    /* ← 枠の中をスクロール可能にする */
+
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+
+        body.light-mode .menu {
+            background-color: #e0e0e0;
+            border-color: #aaa;
+        }
+
+.menu.open {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+
+.menu button {
+    padding: 10px;
+    margin: 6px 0;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    width: 100%;
+    background-color: #007bff;
+    color: white;
+}
+
+
+.menu button:hover {
+    opacity: 0.85;
+}
+
+
+        .menu button.light {
+            background-color: #f0f0f0;
+            color: #000;
+        }
+
+        .menu button.dark {
+            background-color: #333;
+            color: #fff;
+        }
+
+        body.light-mode .menu button.dark {
+            background-color: #555;
+            color: #fff;
+        }
+
+        body.light-mode .menu button.light {
+            background-color: #fff;
+            color: #000;
+        }
+
+        .fade-img {
+    transition: opacity 0.3s ease;
+}
+.top-bar {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 999;
+    display: flex;
+    gap: 10px;
+}
+
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 70px;
+    background: #181818;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    z-index: 1000;
+}
+/* ヘッダーボタン */
+.header button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 10px 16px;
+    border-radius: 8px;
+    transition: background 0.2s;
+}
+
+.header button:hover {
+    background: rgba(255,255,255,0.15);
+}
+
+/* ヘッダーに隠れないように */
+.container {
+    margin-top: 90px;
+}
+
+/* スクロール後に見出しが隠れない対策 */
+section {
+    scroll-margin-top: 90px;
+}
+/* ダークモード（デフォルト） */
+.header {
+    background: #181818;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+/* ライトモード */
+body.light-mode .header {
+    background: #f5f5f5;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+
+.header button {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* アイコン */
+.header .icon {
+    width: 24px;
+    height: 24px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+/* ===== 縦長（スマホ比率） ===== */
+@media (max-aspect-ratio: 3/4) {
+    .header .text {
+        display: none;
+    }
+
+    .header .icon {
+        opacity: 1;
+    }
+}
+
+/* ライトモードの文字色 */
+body.light-mode .header button {
+    color: #000;
+}
+
+/* ホバー（ダーク） */
+.header button:hover {
+    background: rgba(255,255,255,0.15);
+}
+
+/* ホバー（ライト） */
+body.light-mode .header button:hover {
+    background: rgba(0,0,0,0.08);
+}
+.header {
+    transition: background 0.3s ease, border-color 0.3s ease;
+}
+.header button {
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+/* テーマ切替ボタン */
+.theme-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 8px;
+}
+
+.theme-toggle img {
+    width: 26px;
+    height: 26px;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+}
+
+/* =========================
+   カスタムカーソル（本体）
+========================= */
+#custom-cursor {
+  width: 28px;
+  height: 28px;
+  border: 2px solid rgba(74,163,255,0.8);
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  
+  /* ⚠ filter は絶対に触らない */
+  transition:
+    transform 0.2s ease,
+    opacity 0.2s ease;
+
+      position: fixed;
+  pointer-events: none;   /* これ重要 */
+  z-index: 9999; 
+}
+
+/* ホバー時 */
+#custom-cursor.hover {
+  border-color: rgba(96, 162, 255, 0.9);
+  width: 36px;
+  height: 36px;
+}
+
+/* セクション共通（待機状態） */
+.scroll-section {
+  opacity: 0.35;                 /* ← うっすら表示 */
+  transform: translateX(-120px) scale(0.96);
+  filter: blur(2px);             /* ← 少しぼかす */
+  transition:
+    opacity 0.5s ease,
+    transform 0.5s ease,
+    filter 0.5s ease;
+  will-change: opacity, transform, filter;
+}
+
+/* 現在表示中 */
+.scroll-section.active {
+  opacity: 1;
+  transform: translateX(0) scale(1);
+  filter: blur(0);
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-weight: bold;
+}
+
+input,
+textarea {
+  background: #1b1b1b;
+  color: white;
+  border: 1px solid #444;
+  border-radius: 8px;
+  padding: 10px;
+  font-size: 14px;
+}
+
+body.light-mode input,
+body.light-mode textarea {
+  background: #fff;
+  color: #000;
+  border-color: #ccc;
+}
+
+.custom-alert {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-20px);
+  background: #2ecc71;
+  color: white;
+  padding: 14px 20px;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: bold;
+  opacity: 0;
+  filter: blur(4px); /* ← 初期は少しぼかす */
+  pointer-events: none;
+  transition:
+    opacity 0.4s ease,
+    transform 0.4s ease,
+    filter 0.4s ease;
+  z-index: 2000;
+}
+
+/* 表示中 */
+.custom-alert.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+  filter: blur(0); /* ← くっきり */
+}
+
+/* エラー */
+.custom-alert.error {
+  background: #e74c3c;
+}
+
+.alert-icon {
+  font-size: 18px;
+}
+textarea {
+  resize: none;
+}
+
+/* テキスト用カラー変数（なければ追加） */
+:root {
+  --text-main: #eaeaea;
+  --text-sub: #b0b0b0;
+}
+
+body.light-mode {
+  --text-main: #111111;
+  --text-sub: #666666;
+}
+
+.inline-small {
+  font-size: 0.8em;     /* 親文字に対して少し小さく */
+  color: var(--text-sub);
+  vertical-align: baseline; /* 行ズレ防止 */
+}
+
+@media (hover: none) and (pointer: coarse) {
+  #cursor-dot,
+  #custom-cursor {
+    display: none !important;
+  }
+}
+
+#cursor-dot {
+  position: fixed;
+  width: 4px;
+  height: 4px;
+  background: #4aa3ff;
+  border-radius: 50%;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  filter: blur(0.5px);
+  z-index: 99999;
+}
+
+/* 波紋 */
+.cursor-ripple {
+  position: fixed;
+  width: 10px;
+  height: 10px;
+  border: 2px solid rgba(74, 163, 255, 0.8);
+  border-radius: 50%;
+  pointer-events: none;
+  transform: translate(-50%, -50%) scale(0);
+  animation: ripple 0.6s ease-out forwards;
+  z-index: 99998;
+}
+
+@keyframes ripple {
+  to {
+    transform: translate(-50%, -50%) scale(4);
+    opacity: 0;
+  }
+}
+
+/* =========================
+   カード浮き上がりアニメーション
+========================= */
+
+.daiji,
+.hutu,
+.tyoto,
+.kina,
+.yasa,
+.rize,
+.step,
+.rule {
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.daiji:hover,
+.hutu:hover,
+.tyoto:hover,
+.kina:hover,
+.yasa:hover,
+.rize:hover,
+.step:hover,
+.rule:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 15px 35px -10px rgba(0, 0, 0, 0.4);
+}
+
+.update-item {
+  margin: 12px 0;
+  border-radius: 10px;
+  background: #121212;
+  overflow: hidden;
+    transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+/* ライトモード対応（必ず下に置く） */
+body.light-mode .update-item {
+  background: #c7c7c7;
+  color: #000;
+}
+
+body.light-mode .update-header {
+  color: #000;
+}
+
+.update-item:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 15px 35px -10px rgba(0,0,0,0.4);
+}
+
+.update-header {
+  padding: 15px;
+  font-weight: bold;
+  cursor: pointer;
+  position: relative;
+}
+
+.update-header::after {
+  content: "▶";
+  position: absolute;
+  right: 15px;
+  transition: transform 0.3s ease;
+}
+
+.update-item.active .update-header::after {
+  transform: rotate(90deg);
+}
+
+.update-content {
+  max-height: 0;
+  overflow: hidden;
+  padding: 0 15px;
+
+  transition:
+    max-height 0.6s cubic-bezier(0.25, 0.8, 0.25, 1),
+    padding 0.4s ease,
+    opacity 0.4s ease;
+
+  opacity: 0;
+}
+
+.update-item.active .update-content {
+  max-height: 500px;   /* 余裕を持たせる */
+  padding: 20px 15px;
+  opacity: 1;
+}
+
+.responsive-img {
+  width: 50%;
+  max-width: 500px;
+  height: auto;
+  border-radius: 10px;
+  margin: 15px auto;
+  display: block;
+}
+
+/* 上メニュー */
+.top-menu {
+  position: absolute;
+  top: -80px;
+  left: 0;
+  width: 100%;
+  background: #181818;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  padding: 10px;
+
+  transition: top 0.6s ease;
+}
+
+/* ライトモード */
+body.light-mode .top-menu {
+    background: #f5f5f5;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+
+.top-menu.open {
+  top: 70px;
+}
+
+.top-menu button{
+  padding:8px 14px;
+  border:none;
+  border-radius:8px;
+  cursor:pointer;
+}
+
+/* 開閉ボタン */
+#headerToggle{
+  font-size:18px;
+}
+
+.status-card{
+
+background:var(--card-bg,#171717);
+
+padding:18px 26px;
+
+border-radius:14px;
+
+display:flex;
+justify-content:space-between;
+align-items:center;
+
+transition: transform 0.25s ease, box-shadow 0.25s ease;
+
+}
+
+.status-card:hover{
+
+transform: translateY(-6px) scale(1.03);
+
+box-shadow:0 12px 30px rgba(0,0,0,0.15);
+
+}
+
+/* ライトモード */
+body.light-mode .status-card {
+    background: #f5f5f5;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+
+.status-item{
+
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+
+  font-size:16px;
+  font-weight:600;
+
+}
+
+.status-item span{
+
+  font-size:22px;
+  font-weight:bold;
+
+}
+
+body{
+
+transition: background-color 0.35s ease, color 0.35s ease;
+
+}
+
+.discord-label{
+display:flex;
+align-items:center;
+gap:6px;
+}
+
+.discord-icon{
+width:20px;
+height:20px;
+}
+
+.discord-users{
+display:flex;
+align-items:center;
+margin-top:10px;
+min-height:40px;
+}
+
+.discord-avatar{
+
+width:36px;
+height:36px;
+border-radius:50%;
+margin-right:-8px;
+border:2px solid var(--background);
+
+transition:transform .2s;
+
+}
+
+.discord-avatar:hover{
+transform:scale(1.1);
+z-index:5;
+}
+
+/* 4人目ぼかし */
+
+.discord-avatar.blur{
+filter:blur(3px);
+opacity:.6;
+}
+
+/* フェードアウト */
+
+.discord-avatar.fade{
+opacity:0;
+}
+
+/* フッター */
+
+.discord-footer{
+text-align:right;
+font-size:12px;
+margin-top:6px;
+}
+
+.discord-footer button{
+background:none;
+border:none;
+color:var(--text-secondary);
+cursor:pointer;
+}
+
+/* モーダル */
+
+.discord-modal{
+display:none;
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.4);
+justify-content:center;
+align-items:center;
+}
+
+.discord-modal-content{
+background:var(--card-bg);
+padding:20px;
+border-radius:12px;
+max-width:400px;
+display:flex;
+flex-wrap:wrap;
+gap:10px;
+}
+
+.discord-modal img{
+width:42px;
+height:42px;
+border-radius:50%;
+}
+
+#closeModal{
+position:absolute;
+cursor:pointer;
+}
+
+.discord-card{
+padding:16px;
+border-radius:14px;
+background:var(--card-bg);
+width:260px;
+}
+
+.discord-header{
+display:flex;
+align-items:center;
+gap:8px;
+font-weight:600;
+}
+
+.discord-users{
+display:flex;
+flex-wrap:wrap;
+gap:6px;
+
+overflow:hidden;
+
+/* 初期状態（2行くらい） */
+max-height:90px;
+
+transition:max-height .5s ease;
+}
+
+/* 全表示 */
+.discord-users.open{
+max-height:2000px;
+}
+
+
+/* アイコン */
+.discord-avatar{
+
+width:36px;
+height:36px;
+
+border-radius:50%;
+object-fit:cover;
+
+position:relative;
+display:block;
+
+opacity:1;
+transform:none;
+
+transition:all .35s ease;
+
+}
+
+
+/* アニメーション用 */
+.discord-avatar.show{
+opacity:1;
+transform:translateY(0);
+}
+
+
+/* ツールチップ */
+.discord-avatar::after{
+
+content:attr(data-name);
+
+position:absolute;
+bottom:120%;
+left:50%;
+transform:translateX(-50%);
+
+background:#111;
+color:#fff;
+
+padding:4px 7px;
+border-radius:6px;
+
+font-size:11px;
+white-space:nowrap;
+
+opacity:0;
+transition:.2s;
+
+pointer-events:none;
+
+}
+
+.discord-avatar:hover::after{
+opacity:1;
+}
+
+.setting-item{
+display:flex;
+align-items:center;
+justify-content:space-between;
+margin:12px 0;
+}
+
+.setting-label{
+font-size:14px;
+}
+
+/* スイッチ本体 */
+.switch{
+position:relative;
+display:inline-block;
+width:46px;
+height:26px;
+}
+
+/* チェックボックス非表示 */
+.switch input{
+opacity:0;
+width:0;
+height:0;
+}
+
+/* 背景 */
+.slider{
+position:absolute;
+cursor:pointer;
+top:0;
+left:0;
+right:0;
+bottom:0;
+background:#ccc;
+border-radius:26px;
+transition:0.25s;
+}
+
+/* 白い丸 */
+.slider::before{
+content:"";
+position:absolute;
+height:20px;
+width:20px;
+left:3px;
+top:3px;
+background:white;
+border-radius:50%;
+transition:0.25s;
+}
+
+/* ON */
+input:checked + .slider{
+background:#4cd964;
+}
+
+/* 丸移動 */
+input:checked + .slider::before{
+transform:translateX(20px);
+}
+
+#settingsBtn{
+position:fixed;
+right:20px;
+bottom:20px;
+font-size:22px;
+background:#5865F2;
+color:white;
+border:none;
+border-radius:50%;
+width:50px;
+height:50px;
+cursor:pointer;
+z-index:1000;
+}
+
+.settings-panel{
+position:fixed;
+right:20px;
+bottom:80px;
+width:260px;
+padding:16px;
+border-radius:14px;
+
+background:var(--card-bg);
+backdrop-filter:blur(10px);
+
+box-shadow:0 10px 30px rgba(0,0,0,0.2);
+
+opacity:0;
+transform:translateY(20px);
+pointer-events:none;
+
+transition:.3s;
+}
+
+.settings-panel.open{
+opacity:1;
+transform:translateY(0);
+pointer-events:auto;
+}
+
+.setting-item{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin:10px 0;
+}
+
+.hide-header-icons .header .icon{
+display:none;
+}
+
+.blur-off #custom-cursor{
+filter:none !important;
+}
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip-box {
+  position: absolute;
+  bottom: 70%;
+  left: 50%;
+  transform: translateX(-50%);
+
+  background: #333;
+  color: white;
+
+  padding: 10px 14px;
+  border-radius: 12px;
+
+  opacity: 0;
+  visibility: hidden;
+
+  transition: 0.2s;
+
+  pointer-events: none;
+
+  margin-bottom: 2px;
+}
+
+.tooltip:hover .tooltip-box {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+/* リンク */
+.tooltip-box a {
+  color: white;
+}
+
+.tooltip-box a:hover {
+  color: #00ff88;
+}
+
+body.cursor-off #custom-cursor,
+body.cursor-off #cursor-dot,
+body.cursor-off .cursor-ripple{
+  display: none !important;
+}
+
+/* カーソルOFF時は通常カーソルに戻す */
+body.cursor-off,
+body.cursor-off * {
+  cursor: auto !important;
+}
     </style>
 </head>
 <body>
-<header class="header">
 
+<header class="header">
+  
   <button data-scroll="home" data-icon="home">
-<button onclick="window.location.href='https://kinakomushijp.github.io/kinakomushi.discord/index.html'">
+    <button onclick="window.location.href='https://kinakomushijp.github.io/kinakomushi.discord/index.html'">
     <span class="text">絵文字・雑談サーバー</span>
   </button>
-
-<button id="settingsBtn">⚙</button>
-
-<div id="settingsPanel" class="settings-panel">
 
 <button id="theme-toggle">
   <span id="theme-icon" class="typcn"></span>
 </button>
-
-  <h2>カーソル設定</h2>
-
-  <div class="setting-item">
-    <span class="typcn typcn-database"></span><span>ブラーエフェクト</span>
-    <label class="switch">
-      <input type="checkbox" id="toggle-blur">
-      <span class="slider"></span>
-    </label>
-  </div>
 
 </header>
 
