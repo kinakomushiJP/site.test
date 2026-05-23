@@ -209,6 +209,261 @@
             .side-nav { width: 100%; height: 60px; top: auto; bottom: 0; flex-direction: row; }
             .container { margin: 0 auto; padding-bottom: 100px; }
         }
+
+        /* --- 動画ギャラリー用スタイル --- */
+        .video-grid {
+            display: grid;
+            /* 画面幅に合わせて自動で列数を調整 */
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+        }
+
+        .video-card {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s, border-color 0.3s;
+        }
+
+        /* ホバー時の発光エフェクト */
+        .video-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 24px rgba(0, 168, 255, 0.2);
+            border-color: rgba(0, 168, 255, 0.5);
+        }
+
+        /* 常に16:9の比率を保つ魔法のラッパー */
+        .video-wrapper {
+            position: relative;
+            width: 100%;
+            padding-top: 56.25%; /* 16:9の比率 */
+            background: #050505;
+        }
+
+        .video-wrapper iframe,
+        .video-wrapper video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .video-info {
+            padding: 16px;
+        }
+
+        .video-info h4 {
+            margin: 0 0 6px 0;
+            font-size: 1.05rem;
+            color: var(--text-white);
+            /* タイトルが長すぎる場合は「...」で省略 */
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .video-info p {
+            margin: 0;
+            font-size: 0.8rem;
+            color: var(--text-gray);
+            font-weight: 700;
+        }
+
+/* --- コントロールパネル（スクロール＆並び替え） --- */
+        .video-controls {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            gap: 20px;
+        }
+
+        /* 横スクロールエリアの外枠 */
+        .account-scroll-wrapper {
+            flex-grow: 1;
+            position: relative;
+            overflow: hidden;
+            /* ★修正：以前のmask-imageを削除 */
+            border-radius: 20px; /* グラデーションの角を丸く */
+        }
+        
+        /* ★修正：右側を「黒で暗く」するフェードアウト層（画像 image_2.png のイメージ） ★ */
+        .account-scroll-wrapper::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 30%; /* フェードの幅を調整 */
+            height: 100%;
+            /* ★修正: 背景色（var(--bg-dark)）を使い、右に行くほど濃くするグラデーション */
+            background: linear-gradient(to right, rgba(13, 17, 23, 0) 0%, var(--bg-dark) 100%);
+            pointer-events: none; /* 下の要素をクリックできるように */
+            z-index: 10; /* アカウントボタンの上に重ねる */
+        }
+
+        /* スクロール本体 */
+        .account-scroll {
+            display: flex;
+            gap: 15px;
+            overflow-x: auto;
+            padding: 5px 0 15px 0; /* 余白を調整 */
+            scrollbar-width: none; 
+            -ms-overflow-style: none;
+            position: relative;
+            z-index: 1; /* フェードの下に配置 */
+        }
+        .account-scroll::-webkit-scrollbar { display: none; }
+
+        /* アカウントボタン（デザインは維持） */
+        .account-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-gray);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+            min-width: 60px;
+        }
+        .account-btn:hover, .account-btn.active { color: var(--text-white); }
+        .account-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 2px solid transparent;
+            object-fit: cover;
+            transition: 0.3s;
+        }
+        .account-btn.active .account-icon {
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 15px rgba(0, 168, 255, 0.4);
+        }
+        .account-btn span { font-size: 0.75rem; font-weight: bold; }
+
+        /* 動画グリッド（前回と同じ） */
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+        }
+        .video-card {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: 0.3s;
+        }
+        .video-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 24px rgba(0, 168, 255, 0.2);
+            border-color: rgba(0, 168, 255, 0.5);
+        }
+        .video-wrapper {
+            position: relative;
+            width: 100%;
+            padding-top: 56.25%; /* 16:9の比率 */
+            background: #050505;
+        }
+        /* ★修正：YouTubeの<iframe>を復元 */
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            border: none;
+            /* ★重要：動画の上でカスタムカーソルが消えるのはWebのセキュリティ仕様です ★ */
+            /* 窓の向こう側はYouTubeの管轄なので、カスタムカーソルは効きません。正常です。 */
+        }
+        .video-info { padding: 16px; }
+        .video-info h4 { margin: 0 0 6px 0; color: var(--text-white); font-size: 1.05rem; font-weight: bold; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .video-info p { margin: 0; font-size: 0.8rem; color: var(--text-gray); font-weight: 700; }
+        .video-card.hidden { display: none; }
+
+        /* --- オリジナル並び替えメニューのCSS --- */
+        .custom-sort-wrapper {
+            position: relative;
+            min-width: 130px;
+            user-select: none; /* ドラッグ禁止 */
+        }
+
+        /* 普段見えているボタン部分 */
+        .custom-sort-trigger {
+            background: rgba(0, 0, 0, 0.6);
+            color: var(--text-white);
+            border: 1px solid var(--border-color);
+            padding: 10px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: 0.3s;
+        }
+        .custom-sort-trigger:hover {
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 10px rgba(0, 168, 255, 0.2);
+        }
+
+        /* 矢印のアニメーション */
+        .custom-sort-arrow {
+            font-size: 0.6rem;
+            transition: transform 0.3s;
+        }
+        .custom-sort-wrapper.open .custom-sort-arrow {
+            transform: rotate(180deg);
+        }
+
+        /* 開いた時のメニュー（最初は隠しておく） */
+        .custom-sort-options {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            width: 100%;
+            background: rgba(13, 17, 23, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--accent-blue);
+            border-radius: 12px;
+            margin-top: 8px;
+            overflow: hidden;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            z-index: 1000;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        /* openクラスが付いたら表示する */
+        .custom-sort-wrapper.open .custom-sort-options {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        /* 各選択肢 */
+        .custom-sort-option {
+            padding: 12px 15px;
+            color: var(--text-gray);
+            font-weight: bold;
+            font-size: 0.9rem;
+            transition: 0.2s;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .custom-sort-option:last-child {
+            border-bottom: none;
+        }
+        .custom-sort-option:hover {
+            background: rgba(0, 168, 255, 0.15);
+            color: var(--accent-blue);
+            padding-left: 20px; /* ホバーで少し右にスライドするエフェクト */
+        }
     </style>
 </head>
 <body>
@@ -226,36 +481,125 @@
     <a class="nav-item" onclick="login()"><i>👤</i><span class="nav-text">Account Login</span></a>
 </nav>
 <div class="container">
-    <section class="section-card">
-        <h2 style="font-weight:900; font-size:2rem; margin-bottom:10px;">絵文字雑談サーバー</h2>
-        <p style="color:var(--text-gray);">絵文字雑談サーバーで毎日をもっと楽しく</p>
-    </section>
+<section class="section-card" id="videos">
+        <h2 style="font-weight:900; font-size:2rem; margin-bottom:5px;">LATEST VIDEOS</h2>
 
-    <section class="section-card">
-        <h3>絵文字雑談サーバーとは</h3>
-        <p>・楽しくわいわい雑談💬</p>
-        <p>・沢山の絵文字を使う🤔</p>
-        <p>・しっかりとした荒らし対策🛡️</p>
-        <h3>などがあるサーバー</h3>
-    </section>
-
-        <section class="section-card">
-        <h3>お問い合わせ</h3>
-        <div id="login-view" style="text-align: center; padding: 20px 0;">
-            <p style="color: var(--text-gray); margin-bottom: 20px;">お問い合わせにはDiscordログインが必要です。</p>
-            <button class="submit-btn" style="background: #5865F2; color: white; border: none;" onclick="login()">Discordでログイン</button>
-        </div>
-        <div id="contact-view" style="display: none;">
-            <div style="background: rgba(0, 168, 255, 0.1); border-left: 4px solid var(--accent-blue); padding: 15px; margin-bottom: 15px; border-radius: 4px;">
-                <span id="user-name" style="font-size: 1.1rem; font-weight: bold; color: white;"></span>
+        <div class="video-controls">
+            <div class="account-scroll-wrapper">
+                <div class="account-scroll" id="account-filters">
+                    <button class="account-btn active" onclick="filterVideos('all', this)">
+                        <div class="account-icon" style="background: var(--accent-blue); display:flex; align-items:center; justify-content:center; color:#000; font-size:1.5rem;">ALL</div>
+                        <span>すべて</span>
+                    </button>
+                    <button class="account-btn" onclick="filterVideos('kinako', this)">
+                        <img src="https://cdn.discordapp.com/avatars/1338042027878645762/1836d3354f69e1a17a2ef41a59364fd3.webp?size=128" class="account-icon">
+                        <span>きなこむし</span>
+                    </button>
+                </div>
             </div>
-            <textarea id="msg-input" class="form-input" rows="3" placeholder="Message"></textarea>
-            <button class="submit-btn" onclick="send()">Send to Discord</button>
+
+            <div class="custom-sort-wrapper" id="sort-wrapper">
+                <div class="custom-sort-trigger" onclick="toggleSortMenu()">
+                    <span id="sort-label">最新順</span>
+                    <span class="custom-sort-arrow">▼</span>
+                </div>
+                <div class="custom-sort-options" id="sort-options">
+                    <div class="custom-sort-option" onclick="applySort('newest', '最新順')">最新順</div>
+                    <div class="custom-sort-option" onclick="applySort('oldest', '古い順')">古い順</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="video-grid" id="video-container">
+            <div class="video-card" data-author="kinako" data-date="2026-05-22">
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube.com/embed/Pz0NpBilAR0" allowfullscreen></iframe>
+                </div>
+                <div class="video-info">
+                    <h4>vs impostor directのlegacyの情報まとめ</h4>
+                    <p>Kinako • 2026.04.08</p>
+                </div>
+            </div>
+
+            <div class="video-card" data-author="kinako" data-date="2026-05-15">
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube.com/embed/CNHwEo26Re4" allowfullscreen></iframe>
+                </div>
+                <div class="video-info">
+                    <h4>ネタがない。</h4>
+                    <p>きなこむし • 2026.03.21</p>
+                </div>
+            </div>
+            
+            <div class="video-card" data-author="kinako" data-date="2026-04-10">
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube.com/embed/ZcGxXNDsHtg" allowfullscreen></iframe>
+                </div>
+                <div class="video-info">
+                    <h4>動画を作りたいだけなのに</h4>
+                    <p>きなこむし • 2026.03.20</p>
+                </div>
+            </div>
         </div>
     </section>
-</div>
+    </div>
 
 <script>
+    // --- 動画の絞り込みと並び替え機能 ---
+    
+    // アカウントによる絞り込み機能
+    function filterVideos(authorId, btnElement) {
+        // ボタンの見た目（青い枠）を切り替える
+        document.querySelectorAll('.account-btn').forEach(btn => btn.classList.remove('active'));
+        btnElement.classList.add('active');
+
+        // 動画の表示/非表示を切り替える
+        const videos = document.querySelectorAll('.video-card');
+        videos.forEach(video => {
+            if (authorId === 'all' || video.getAttribute('data-author') === authorId) {
+                video.classList.remove('hidden');
+            } else {
+                video.classList.add('hidden');
+            }
+        });
+    }
+
+// --- オリジナルの並び替え機能 ---
+    
+    // 1. メニューの開け閉め
+    function toggleSortMenu() {
+        document.getElementById('sort-wrapper').classList.toggle('open');
+    }
+
+    // 2. 項目を選んだ時の処理
+    function applySort(sortType, labelText) {
+        // 表示されている文字を書き換える
+        document.getElementById('sort-label').innerText = labelText;
+        // メニューを閉じる
+        document.getElementById('sort-wrapper').classList.remove('open');
+
+        // 動画を並び替える処理
+        const container = document.getElementById('video-container');
+        const videos = Array.from(container.getElementsByClassName('video-card'));
+
+        videos.sort((a, b) => {
+            const dateA = new Date(a.getAttribute('data-date'));
+            const dateB = new Date(b.getAttribute('data-date'));
+            return sortType === 'newest' ? dateB - dateA : dateA - dateB;
+        });
+
+        videos.forEach(video => container.appendChild(video));
+    }
+
+    // 3. 画面の他の場所をクリックしたらメニューを閉じる機能
+    window.addEventListener('click', function(e) {
+        const wrapper = document.getElementById('sort-wrapper');
+        // クリックした場所がメニューの中じゃなければ閉じる
+        if (wrapper && !wrapper.contains(e.target)) {
+            wrapper.classList.remove('open');
+        }
+    });
+
     // --- 1. Supabase設定 ---
     const SB_URL = 'https://sphxblzkqxmkrtfiwjnq.supabase.co'; 
     const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNwaHhibHprcXhta3J0Zml3am5xIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc4OTE5MjcsImV4cCI6MjA5MzQ2NzkyN30.E6mVpH-eeg5ML7J9fJI0FLqBTiykpo8zEc6DLcHhhig';
@@ -330,8 +674,12 @@ const bgCanvas = document.getElementById('bg-canvas');
 
 // クリック開始部分を以下に書き換え
     window.addEventListener('mousedown', (e) => {
-        // 禁止マーク（ドラッグ動作）を完全に封じる
-        if (e.button === 0) { // 左クリックの時だけ
+        // ★追加：クリックした場所がボタンやメニューかどうかを判定する
+        const tag = e.target.tagName.toLowerCase();
+        const isUI = ['button', 'input', 'textarea', 'a'].includes(tag) || e.target.closest('.custom-sort-wrapper');
+
+        // ボタンやメニュー「以外」をクリックした時だけ、禁止マークを防ぐ
+        if (e.button === 0 && !isUI) { 
             e.preventDefault(); 
         }
 
